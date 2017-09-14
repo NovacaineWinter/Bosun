@@ -1,0 +1,607 @@
+
+
+
+body h1,body h2,body h3,body h4,body h5,body h6{
+ 	color: #636b6f;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;	
+}
+
+
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    height: 100vh;
+    margin: 0;
+}
+
+
+@media screen and (min-width: 1201px) {
+	/* This styling is removed under 1200px wide displays */
+	#app .navbar{
+	    position: fixed;
+	    width: 100%;
+	}
+	#mastercontainer{padding-top:75px;}
+
+	#dashboard-sidebar{position:fixed;}
+
+	#ajax-target{float:right;}
+
+	/* end of stuff that is removed below 1200px  */
+}
+
+.full-height {height: 100vh;}
+
+.to-reveal{
+	display:none;
+}
+
+
+#mastercontainer .btn-border{
+	border:1px solid #e7e7e7;
+	border-radius:4px;
+	margin:8px;
+}
+#mastercontainer .btn-border:hover{
+	background-color:#fafafa;
+}
+
+
+/* * * *   Stuff to move about and tidy up  *  * * * */
+
+
+/* bits to style the table on the stock module */
+#stocktable{
+	background-color:#fff;
+	border:1px solid #e7e7e7;
+}
+#stocktable tr{
+	margin-bottom: 1px solid #353535;
+}
+
+#stocktable tr th{
+	padding:0px 15px;
+	text-align: center;
+}
+#stocktable tr td{
+	padding:0px 15px;
+}
+
+.rightborder{
+	border-right:1px solid #d9d9d9;
+}
+.bottomborder{
+	border-bottom:1px solid #d9d9d9;
+}
+.topborder{
+	border-top:1px solid #d9d9d9;
+}
+.leftborder{
+	border-left:1px solid #d9d9d9;
+}
+
+.allborder{
+	border:1px solid #d9d9d9;
+}
+
+
+.orange-bg{
+	background-color:#ffdfba; 
+}
+.darkorange-bg{
+	background-color:#ffac4d; 
+}
+.red-bg{
+	background-color:#ffb3ba; 
+}
+.yellow-bg{
+	background-color:#ffffba; 
+}
+.blue-bg{
+	background-color:#bae1ff; 
+}
+.green-bg{
+	background-color:#baffc9; 
+}
+
+.ajaxstockitem{
+	height:35px;
+}
+.evenrow{background-color:#fff;}
+.oddrow{background-color:#e7e7e7;}
+
+.losspercent{
+	color:red;
+}
+#stockSearchResultTarget .itemdetailcontainer{
+    padding-bottom: 40px; 
+    padding-top: 15px;
+}
+
+
+.updateablenumber[readonly]{
+	background-color:#fff;
+	border:none;
+	cursor:pointer;
+}
+
+.updateabletextbox[readonly]{
+	border:none;
+	background: none;
+}
+
+
+
+
+
+
+
+
+
+/* * * * *  Styling for the modals * * * * * */
+
+#main-modal{
+    position: fixed;
+    width: 90vw;
+    left: 5vw;
+    /* top: 30vh;  */
+    top : 55px;
+    z-index: 3;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
+}
+
+#modal-title{
+	text-align: center;
+    width: 95%;
+    margin: auto;
+    height: 50px;
+    padding-top: 8px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+#modal-title h4{
+	text-transform: uppercase; 
+	font-weight:600;
+	padding-bottom:10px;
+}
+
+#modal-actions{
+    width: 95%;
+    min-height: 51px;
+    text-align: right;
+    margin: auto;
+    border-top: 1px solid #d9d9d9;
+}
+
+#modal-content-holder{
+    width: 100%;
+    min-height: 100px;
+    padding-top:30px;
+}
+
+#modal-background-blur{
+	position:fixed;
+	width:100vw;
+	height:100vh;
+	z-index: 2;
+	filter:blur(20px);
+	opacity:0.5;
+	background: white;
+	top:0px;
+}
+
+#modal-close-btn{
+    position: absolute;
+    left: 71vw;
+    top: -3vh;
+    font-size: 26px;
+    cursor:pointer;
+}
+
+.modalInputField{
+	width:100%;
+}
+
+.modalInputRow{
+	width:90%;
+	margin:auto;
+	margin-top:20px;
+}
+.ModalInputLabel{
+	width:40%;
+	display:inline-block;
+}
+
+.modalInputContainer{
+	width:49%;
+	display:inline-block;
+}
+.modalInputContainer select{
+	padding:5px;
+}
+
+
+.deleteSupplierForItem{
+	color:red;
+	cursor:pointer;
+}
+
+
+.preferedSupplierRadio input[type="radio"] {
+   display: none; 
+}
+
+.preferedSupplierRadio label {
+  display: inline-block;
+  padding: 4px 11px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.preferedSupplierRadio input[type="radio"]:checked+label {
+    background-color: #ccffcc;
+    margin-top: 5px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #e7e7e7;
+}
+
+.skinnyrow{
+	display:inline-block;
+}
+.skinnyrow .divcell{
+	min-height:30px;
+}
+.divcell input[type="number"]{
+	width:100%;
+}
+
+.text-center .updateabletextbox{
+	width:100%;
+}
+
+/* * * Style input elements * * */
+
+.bosun-select {
+   -webkit-appearance: button;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   margin: 5px 0px 20px 0px;
+   overflow: hidden;
+   padding: 5px 30px 5px 5px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   /* width: 300px; */
+}
+select[disabled] {
+	visibility: hidden;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+/*  Default styling for blade templates  */
+
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    height: 100vh;
+    margin: 0;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+/* End of default styling */
+
+
+#dashboard-container{
+	width:100%;
+}
+/*
+.navbar{
+	height:10vh;
+	margin-top:20px;
+}*/
+.navbar h1{
+	font-size:50px;
+	text-align: center;
+}
+
+.sidebar{
+	height:100%;
+	background-color: #fafafa;
+}
+
+
+
+
+
+
+/**  Styling for Form elements  **/
+
+
+/* Global Settings */
+.form-group{
+	padding-top:20px;
+	/*padding-bottom:20px;*/
+}
+
+.form-group .form-control{
+	border-radius:10px;
+}
+
+
+#ajax-target .form-container{
+	max-width:500px;
+	margin:0 auto;
+}
+
+.form-group input.not-filled{
+    border-color: red;
+    border-width: 2px;
+}
+
+/*  Textbox holder styling  */
+
+/* For single line */
+.form-group .textbox-holder-left{
+	padding-right:0px;
+}
+
+.form-group .textbox-holder-middle{
+	padding-left:0px;
+	margin-left:-1px;
+	padding-right:0px;
+}
+
+.form-group .textbox-holder-right{
+	padding-left:0px;
+	margin-left:-1px;
+	padding-right:0px;
+}
+
+
+/* For Grid style*/
+.form-group .textbox-holder-top-left{
+	padding-right:0px;
+	padding-bottom:0px;
+}
+.form-group .textbox-holder-top-right{
+	padding-left:0px;
+	padding-bottom:0px;
+}
+.form-group .textbox-holder-bottom-left{
+	padding-right:0px;
+	padding-top:0px;
+}
+.form-group .textbox-holder-bottom-right{
+	padding-left:0px;
+	padding-top:0px;
+}
+
+
+
+
+
+/*  Input textbox styling  */
+.form-group .left-textbox{
+	float:right;
+	border-top-right-radius:0px;
+	border-bottom-right-radius:0px;
+}
+
+.form-group .right-textbox{
+	float:right;
+	border-top-left-radius:0px;
+	border-bottom-left-radius:0px;
+}
+
+.form-group .bottom_textbox{
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	margin-top:-1px;
+}
+
+.form-group .top_textbox{
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.form-group .middle_textbox{
+	border-radius: 0px;
+	margin-top:-1px;
+}
+
+
+.form-group .verttextboxes{
+	width:100%;
+	border-width: 1px;
+}
+
+
+.form-group .top-left-textbox{
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+.form-group .top-right-textbox{
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-top-left-radius: 0px;
+	margin-left:-1px;
+}
+
+.form-group .bottom-left-textbox{
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	margin-top:-1px;
+}
+
+.form-group .bottom-right-textbox{
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	margin-top:-1px;
+	margin-left:-1px;	
+}
+
+.form-group .row .input-group{
+	float:left;
+	text-align: center;
+}
+
+
+
+
+
+/*  styling for the labels on the inputs */
+.dashboard-label{
+	height: 29px;
+	padding-top: 7.5px;
+}
+
+
+
+
+/*  Appended and Prepended text on the input boxes - cheated and styled to be on the bottom of a grid  */
+.form-group .input-group .leftspan{
+	border-radius:0px;
+	border-bottom-left-radius: 10px;	
+	border-top:none;
+}
+
+.form-group .input-group .topleftspan{
+	border-radius:0px;
+	border-top-left-radius: 10px;	
+	border-top:none;
+}
+
+.form-group .input-group .middlespan{
+	border-radius:0px;
+	border-top:none;
+}
+
+.form-group .input-group .rightspan{
+	border-radius:0px;
+	border-bottom-right-radius: 10px;	
+	border-top:none;
+}
+
+.form-group .input-group .toprightspan{
+	border-radius:0px;
+	border-top-right-radius: 10px;	
+	border-top:none;
+}
+
+
+
+/*  End of styling for form elements  */
+
+
+
+/*   Styling for the dashboard master template    */
+
+.panel-title{
+	font-weight: bold;
+}
+
+.ajax-clickable{
+	cursor: pointer;
+}
+
+
+@media
