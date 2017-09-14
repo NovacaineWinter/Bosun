@@ -62,6 +62,13 @@ html, body {
 	margin-bottom: 1px solid #353535;
 }
 
+#stocktable tr h4{
+	font-weight: 600;
+}
+#stocktable tr h5{
+	font-weight: 600;
+}
+
 #stocktable tr th{
 	padding:0px 15px;
 	text-align: center;
