@@ -108,7 +108,7 @@ class stockController extends Controller
 		if($request->has('stockKeyword') && $request->get('stockKeyword')!=''){
 			$searchByStockCode = stockCode::where('code','=',$request->get('stockKeyword'))->get();
 
-			if($searchByStockCode){
+			if($searchByStockCode->count() == 1){
 				$items = $searchByStockCode->pluck('item');
 			}
 		}
