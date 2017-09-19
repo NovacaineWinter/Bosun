@@ -35,17 +35,17 @@ Route::get('/',['middleware'=>'terminal', function () {
 
 
 
-/*  Routes set up specifically for Bosun  */
+/*  Routes set up specifically for Logging  */
 Route::get('logging', ['uses' => 'LoggingController@index']);
 
-Route::get('logging/ajax',['uses' => 'logging_ajax@index']);
+Route::get('logging/ajax',['uses' => 'LoggingController@ajax']);
 
-Route::get('ajax',['uses' => 'ajaxController@index']);
+Route::get('ajax',['uses' => 'DashboardController@ajax']);
 
 Route::get('dashboard',['uses' =>'DashboardController@index'])->middleware('auth');
 
 
-Route::get('/form-handler', 'ajax_form_handler@index');
+
 
 /* 
 *
