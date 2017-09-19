@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class bookedOutPart extends Model
 {
-	protected $table = 'bookedOutParts';
+	protected $table = 'bookedOutStock';
 
 
     public function item(){
