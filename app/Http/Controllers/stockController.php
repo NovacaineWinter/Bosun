@@ -67,8 +67,20 @@ class stockController extends Controller
 			$keyword='%';
 		}
 
+
+		if($request->has('showAll')){
+			if($request->get('showAll')){
+				$numToShow = 1000000000;
+			}else{
+				$numToShow = 50;
+			}
+		}else{
+			$numToShow=50;
+		}
+
 		//check for supplier filter
 		if(($request->has('supplier_filter')) && ($request->get('supplier_filter')>0)){
+
 			$requestedSupplier=$request->get('supplier_filter');
 
 
@@ -89,7 +101,7 @@ class stockController extends Controller
 				->whereHas('item',function($queryThree) use($requestedSubcategory,$subcategorySQLOperator){					
 					$queryThree->where('subcategory_id',$subcategorySQLOperator,$requestedSubcategory);
 				})				
-				->take(50)
+				->take($numToShow)
 				->get();
 
 			$items=$codes->pluck('item');
@@ -99,7 +111,7 @@ class stockController extends Controller
 				  where('name','LIKE','%'.$keyword.'%')
 				->where('category_id',$categorySQLOperator,$requestedCategory)
 				->where('subcategory_id',$subcategorySQLOperator,$requestedSubcategory)	
-				->take(50)			
+				->take($numToShow)			
 				->get();
 		}
 

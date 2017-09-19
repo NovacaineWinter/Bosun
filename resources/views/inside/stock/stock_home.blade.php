@@ -40,7 +40,7 @@ $suppliers = supplier::all()->sortBy('name');
                     <th class="rightborder topborder"><h4>Subcategory</h4></th>
                     <th class="rightborder topborder"><h4>Supplier</h4></th>
                     <th class="rightborder topborder"><h4>Qty</h4></th>
-                    <th class="topborder"><!-- View button --></th>
+                    <th class="topborder">All<br><input type="checkbox" id="allCheckBox" onChange="filterFormByAjax();"></th>
                 </tr>
                 <tr>
                     <!--<th>Thumbnail</th>-->
@@ -189,6 +189,7 @@ var debounce;
 
     function filterFormByAjax(){
 
+        $('#stockSearchResultTarget').html('');
         
         if($('#stocksearch').val().length>0){
              keywordToSend=$('#stocksearch').val();
@@ -214,6 +215,11 @@ var debounce;
             supplierFilterToSend='';
         }
 
+        if($('#allCheckBox').val()!=0){
+            all = true;
+        }else{
+            all = false;
+        }
         $.ajax({
             url: "{{url('/stock/search')}}",
             method: 'GET',
@@ -222,7 +228,8 @@ var debounce;
                 stockKeyword:      keywordToSend,
                 category_filter:    categoryFilterToSend,
                 subcategory_filter: subcategoryFilterToSend,
-                supplier_filter:    supplierFilterToSend
+                supplier_filter:    supplierFilterToSend,
+                showAll:            all
             },
             success: function(response) {
                 $('#stockSearchResultTarget').html(response);
