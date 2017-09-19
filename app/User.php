@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
+    /** 
      * The attributes that are mass assignable.
      *
      * @var array
@@ -39,12 +39,12 @@ class User extends Authenticatable
     ];
 
 
-
     public function role(){
         return $this->belongsTo('App\role','role_id');
     }
 
 
+   
 
     public function may($responsibility){
         if($this->role->first()->$responsibility){
@@ -53,19 +53,6 @@ class User extends Authenticatable
             return false;
 
         }
-    }
-
-
-    public function day_summaries(){
-        return $this->hasMany('App\day_summary', 'worker_id');
-    }
-
-    public function schedules() {
-        return $this->hasMany('App\schedule','worker_id');
-    }
-    
-    public function skills() {
-        return $this->belongsToMany('App\skill','workers_skills','worker_id','skill_id');
     }
 
     public function change_activity($logged_in,$on_lunch,$project,$task){      
