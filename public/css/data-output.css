@@ -1,0 +1,14 @@
+.data-table tr th{
+	padding:20px;
+	border:1px solid #e7e7e7;
+}
+
+.data-table{
+	text-align: center;
+
+	margin:100px;
+}
+
+.data-table td{
+	border:1px solid #e7e7e7;
+}

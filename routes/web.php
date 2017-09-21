@@ -46,7 +46,6 @@ Route::get('dashboard',['uses' =>'DashboardController@index'])->middleware('auth
 
 
 
-
 /* 
 *
 *	Routes specifically for stock control
@@ -61,6 +60,8 @@ Route::get('stock/update',['uses'=>'stockController@updateStockItem']);
 Route::get('stock/modal',['uses'=>'stockController@modals']);
 Route::get('stock/insert-select-menu',['uses'=>'stockController@generateSelects']);
 Route::get('stock/booked-out-stock',['uses'=>'stockController@bookedOutStock']);
+Route::get('stock/value',['uses'=>'stockController@stockValue']);
+
 
 
 Route::get('projects',['uses'=>'projectController@listProjects']);

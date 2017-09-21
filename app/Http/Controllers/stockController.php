@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\supplier;
+use App\project;
 use App\stock;
 use App\stockCode;
 use App\stockCategory;
@@ -31,6 +32,31 @@ class stockController extends Controller
     		return '';
     	}
 
+	}
+
+	public function stockValue(){
+		$stock = stock::all();
+		$projects = project::where('can_book_parts_to','=',1)->get();;
+
+		$totalValue = 0;
+		foreach($stock as $item){
+			$currentItemValue = $item->qtyInStock * $item->supplierCodes->sortByDesc('prefered')->first()->netCost;
+			$totalValue = $totalValue + $currentItemValue;
+		}
+
+		$toSendOn=array('storesValue'=>$totalValue);
+		$toSendOn['projects']=array();
+
+		foreach($projects as $project){
+			$projectTotalValue=0;
+			foreach($project->bookedOutParts as $part){
+				$toAdd = $part->qty * $part->exVatCost;
+				$projectTotalValue = $projectTotalValue + $toAdd; 
+			}
+			$toSendOn['projects'][]=array('project'=>$project,'wip'=>$projectTotalValue);
+		}
+		
+		return view('inside.stock.value_summary')->with('data',$toSendOn);
 	}
 
 
