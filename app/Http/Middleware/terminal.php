@@ -20,12 +20,19 @@ class terminal
         $the_cookie=Request::cookie('terminal_id');
 
         if ($the_cookie != null) {
+
             if(in_array($the_cookie,TERMINAL_IDS_ARRAY)){
-                return redirect('/logging');      
+
+                return $next($request);                
+
+            }else{
+                return redirect('/login');
             }
 
+        }else{
+            return redirect('/login');
         }
 
-        return $next($request);
+        
     }
 }

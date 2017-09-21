@@ -37,12 +37,44 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+  
+
+
+    public function cssStatus() {
+
+        if($this->on_lunch == 1){
+
+            echo 'userOnLunch';
+
+        }elseif($this->logged_in == 1){
+
+            echo 'userWorking';
+
+        }else{
+
+            echo 'userLoggedOff';
+
+        }       
+    }
+
+
+    public function task(){
+        return $this->belongsTo('App\tasks','task_id');
+    }
+
+    public function skills(){
+        return $this->belongsToMany('App\skill','user_skills','user_id','skill_id');
+    }
 
 
     public function role(){
         return $this->belongsTo('App\role','role_id');
     }
 
+
+    public function badges(){
+        return $this->hasMany('App\userBadge','user_id');
+    }
 
    
 

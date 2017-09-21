@@ -53,6 +53,107 @@ html, body {
 /* * * *   Stuff to move about and tidy up  *  * * * */
 
 
+
+.staff-grid-view-box{
+	text-align:center;
+	border:1px solid #e7e7e7;
+	box-sizing: border-box;
+	padding:20px;
+	border-radius:6px;
+}
+
+.staff-grid-view-box h4{
+	text-transform: uppercase;
+	font-weight:600;
+}
+
+.staff-grid-view-box h5{
+	text-transform: lowercase;
+	text-transform: capitalize;
+	font-weight:600;
+}
+
+.grid-view-row{
+	margin-top:28px;
+}
+
+.clickable-staff-grid{
+	cursor:pointer;
+}
+
+
+.userWorking{
+	background-color:#e6f4ff !important;
+	border-color:#1a9cff !important;
+}
+.userOnLunch{
+	background-color:#fff3e6 !important;
+	border-color:#ff8400 !important;
+}
+.userLoggedOff{
+	background-color:#f2f2f2 !important;
+	border-color:#808080 !important;
+}
+
+#ajax-target{
+    box-sizing: border-box;
+    padding: 200px;
+    background-color: #fafafa;
+    border-radius: 20px;
+    position:relative;
+}
+
+#activity-selector .loggingbutton{
+	box-sizing: border-box;
+	padding:20px 20px;
+	width:100%;
+	color:#353535;
+	font-weight: 600;
+}
+.accordionhidden{
+	border: 1px solid #808080;
+    box-sizing: border-box;
+    padding: 20px 20px;
+    width: 100%;
+    display: inline-block;
+    margin-top: -6px;
+    border-top: none;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    background-color:#fafafa;
+    z-index: 1;
+    position:relative;
+}
+
+.project-accordion{
+	margin: 20px auto;
+	z-index: 2;
+	position:relative;
+}
+
+.taskbutton{
+	margin:20px auto;
+}
+#job-selection-holder{
+	margin-top:20px;
+	box-sizing: border-box;
+	padding:20px;
+	border-radius:10px;
+	border:1px solid #808080;		
+}
+
+#backbutton{
+    float: left;
+    position: absolute;
+    top: 35px;
+    left: 70px;
+    font-size: 80px;
+    cursor:pointer;
+}
+
+.links{z-index:10;background-color: #fff;width:100%;padding:20px;top:0px!important;}
+.links a{float:right;}
+
 /* bits to style the table on the stock module */
 #stocktable{
 	background-color:#fff;
@@ -113,6 +214,7 @@ html, body {
 .green-bg{
 	background-color:#baffc9; 
 }
+
 
 .ajaxstockitem{
 	height:35px;

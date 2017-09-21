@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use Cookie;
 
 
@@ -24,7 +25,15 @@ class LoggingController extends Controller
 
     }
 
-	public function ajax(){
+
+
+    public function setTerminalCookie(){
+    	$response = new \Illuminate\Http\Response('Test');
+		$response->withCookie(cookie('terminal_id', 123, 45000));
+		return $response;
+    }
+
+	public function ajax(Request $request){
 	    	if($request->has('ajaxmethod')){
 
     		switch($request->get('ajaxmethod')){
@@ -135,6 +144,14 @@ class LoggingController extends Controller
                         abort(404,'ID not recognised');
                     } 
                     break;
+
+        /* * * * * * * * * * */
+        		case 'userGridClicked':
+        			if($request->has('user_id')){
+        				$user = User::find($request->get('user_id'));
+        				return view('outside.logging.ajax.user_home')->with('user',$user);
+        			}
+        			break;
     		}
     	}else{
     		echo '<script>window.location.replace("'.url("/logging").'");</script>';
