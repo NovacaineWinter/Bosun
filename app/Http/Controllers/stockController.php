@@ -299,9 +299,21 @@ class stockController extends Controller
 				case 'bookOutItem':
 					if($request->has('qtyToRemove') && $request->has('projectID') && $request->has('itemID')){
 						$stockItem=stock::find($request->get('itemID'));
+
+						$toRemove = $request->Get('qtyToRemove');
+
 						$oldStock=$stockItem->qtyInStock;
-						$newStock=$oldStock-$request->get('qtyToRemove');
+						if($oldStock<=0){
+							$toRemove=0;
+						}elseif($oldStock<$toRemove){
+							$toRemove = $oldStock;
+						}
+						$newStock=$oldStock-$toRemove;
 						$stockItem->qtyInStock=$newStock;
+
+						if($stockItem->qtyInStock < $stockItem->reorderQty){
+							$stockItem->is_highlighted=1;
+						}
 						$stockItem->save();
 
 
@@ -309,7 +321,7 @@ class stockController extends Controller
 						
 						if(!empty($alreadyExists)){
 							$currentQty = $alreadyExists->qty;
-							$alreadyExists->qty = $currentQty + $request->get('qtyToRemove');
+							$alreadyExists->qty = $currentQty + $toRemove;
 							$alreadyExists->save();
 
 						}else{
@@ -317,7 +329,7 @@ class stockController extends Controller
 							$bookedOutItem= new bookedOutPart;
 							$bookedOutItem->stock_id=$request->get('itemID');
 							$bookedOutItem->project_id=$request->get('projectID');
-							$bookedOutItem->qty = $request->get('qtyToRemove');
+							$bookedOutItem->qty = $toRemove;
 
 							//this may need to change for FIDO / LIFO stock controlling
 							$itemCode=stockCode::where('stock_id','=',$request->get('itemID'))

@@ -35,6 +35,15 @@ $bookedOutPart = bookedOutPart::find($request->get('targetID'));
 
 @section('inline-script')
 <script>
+
+$('#qtyToUnbookInput').change(function() {
+    if(parseFloat($(this).val())>parseFloat($(this).attr('max'))){
+        $(this).val($(this).attr('max'));
+    }
+});
+
+
+
     $('#unbookParts').click(function() {
 
         $.ajax({

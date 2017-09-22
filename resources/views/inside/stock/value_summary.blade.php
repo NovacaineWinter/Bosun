@@ -15,11 +15,13 @@
 		<tr>
 			<th>Project Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 			<th>&nbsp;&nbsp;&nbsp;&nbsp;Value</th>
+			<th>View Item Breakdown</th>
 		</tr>
 		@foreach($data['projects'] as $project)
 		<tr>
 			<td>{{{  $project['project']->name  }}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 			<td>&pound; {{{  $project['wip']  }}}</td>
+			<td><a href="{{{  url('stock/booked-out-stock?project_id='.$project['project']->id)  }}}">View</a></td>
 		</tr>
 		@endforeach
 	</table>
