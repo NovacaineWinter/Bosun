@@ -38,6 +38,24 @@ class LoggingController extends Controller
 
     		switch($request->get('ajaxmethod')){
 
+                case 'setStatus':
+                
+                    if($request->has('userID') && $request->has('loggedIn') && $request->has('lunch') && $request->has('taskID')){
+                        $worker = User::find($request->get('userID'));
+
+                        $statusInfo['loggedIn']= $request->get('loggedIn');
+                        $statusInfo['onLunch']= $request->get('lunch');
+                        $statusInfo['taskID']= $request->get('taskID');
+
+                        $worker->change_activity($statusInfo['loggedIn'],$statusInfo['onLunch'],$statusInfo['taskID']);
+
+                        return view('outside.logging.ajax.logging_complete')->with('StatusInfo',$statusInfo);
+
+                    }else{
+                        echo 'There was a problem logging your work activity- Some data was absent - please try again';
+                    }
+                    break;
+
         /* * * * * * * * * * */
 
     			case 'badgeSubmitted': 

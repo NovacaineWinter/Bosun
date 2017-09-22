@@ -87,18 +87,18 @@ class User extends Authenticatable
         }
     }
 
-    public function change_activity($logged_in,$on_lunch,$project,$task){      
-        if( $this->logged_in != $logged_in || $this->on_lunch != $on_lunch || $this->project_id !=$project || $this->task_id != $task){
+    public function change_activity($logged_in,$on_lunch,$task){  
+
+        if( $this->logged_in != $logged_in || $this->on_lunch != $on_lunch || $this->task_id != $task){
+
             $now=time();
             if($this->logged_in){
                 //have an activity already being carried out and as such need to record work done
                 if($this->on_lunch){
                     //currently on lunch so let's record the task accordingly
-                    $old_task=1;    //1 is the default task ID for lunch
-                    $old_project=1; //1 is the default project for lunch
+                    $old_task=1;    //1 is the default task ID for lunch               
                 }else{
                     $old_task =$this->task_id;
-                    $old_project=$this->project_id;
                 }
                 
 
@@ -107,81 +107,149 @@ class User extends Authenticatable
 
                 //this creates a new work done entry for the activity that has just finished
                 $w=new work_done;
-                $w->worker_id=$this->id;
-                $w->project_id=$old_project;
+
+                $previousTask = tasks::find($old_task);
+
+                $w->user_id=$this->id;
+
                 $w->task_id=$old_task;
+
+                $w->project_id = $previousTask->project->id;
+
                 $w->time_worked=($now-($this->time_change));
+
                 $w->time_started=$this->time_change;
+
                 $w->time_finished=$now;
+
                 $w->day_summary_id=$this->current_day_summary;
+
                 $w->previous_id=$this->last_work_leger_id;
+
                 $w->first=$this->first_activity_for_day;
+
+
+
                 if($logged_in){
+
                     //we're still logged in so set the last parameter to zero
                     $w->last=0;
+
                 }else{
+
                     //we've logged out so set the last paramater to true and summarise the day
                     $w->last=1;
+
                     $summary=day_summary::find($this->current_day_summary);
                     $summary->time_out_stamp=$now;
                     $summary->save();
-                    $summary->summarise_day();                
+                    $summary->summarise_day();         
+
                 }
+
                 $w->save();
                 $w_id=$w->id;
                 
+
                 //this updates the worker record with the information about the new status
                 $this->last_work_leger_id=$w_id;
+
                 if($this->first_activity_for_day){
                     //reset the first activity for day indicator as this is no longer true
                     $this->first_activity_for_day=0;
                 }
+
                 $this->logged_in=$logged_in;
                 $this->on_lunch=$on_lunch;
-                $this->project_id=$project;
                 $this->task_id=$task;
                 $this->time_change=$now;
                 $this->save();
 
 
                 if($previous){
-                    $previous->next_id=$w_id;   
+                    $previous->next_id=$w_id;  
+                    $previous->save(); 
                 }
                 
 
 
             }else{
+
                 //was logged off so no work to be recoreded
                     //this is now a log-on event, this is where the day summary entry is created for the worker
                         //this is the start of a work blockchain
-                $day_summary=day_summary::where('worker_id','=',$this->id)
+
+
+                $day_summary=day_summary::where('user_id','=',$this->id)
                     ->where('year','=',date("Y"))
                     ->where('week','=',date("W"))
                     ->where('day','=',date("d"))
                     ->first();
 
-                $this->time_change=$now;
+
+
+
+                
                 $this->logged_in=1;
                 $this->on_lunch=$on_lunch;
-                $this->project_id=$project;
                 $this->first_activity_for_day=1;
                 $this->task_id=$task;
                 //saving later - may need to change the value of first activity for day
 
 
-                if(!empty($day_summary)){                
+                if(!empty($day_summary)){   
+
                     //we have re-logged in so let's remove the "last" parameter from the last work done entry and continue from there
                     $change_old=work_done::find($this->last_work_leger_id);
+
                     if($change_old){
+
                         $change_old->last=0;
-                        $change_old->save();                    
+                         
+
+                        $w=new work_done;
+
+                        $w->user_id=$this->id;
+
+                        $w->task_id=1;
+                        $w->project_id = 1;
+
+                        $w->time_worked=($now-($this->time_change));
+
+                        $w->time_started=$this->time_change;
+
+                        $w->time_finished=$now;
+
+                        $w->day_summary_id=$day_summary->id;
+
+                        $w->previous_id=$this->last_work_leger_id;
+
+                        $w->first=0;
+
+                        $w->last=0;
+
+                        $w->save();
+
+                        $w_id=$w->id;
+
+                        $change_old->next_id=$w_id;  
+
+                        $this->last_work_leger_id = $w_id;
+                        
+                        $change_old->save();                 
+
                     }
                     $this->first_activity_for_day=0;
                     $sum_id=$day_summary->id;
+
+
+
+                    //need to create a work done entry for this event to ensure continuity - set it as lunch
+
                 }else{
 
                     $day_summary= new day_summary;
-                    $day_summary->worker_id=$this->id;
+                    $day_summary->user_id=$this->id;
                     $day_summary->year=date('Y');
                     $day_summary->week=date('W');
                     $day_summary->day=date('d');
@@ -190,7 +258,7 @@ class User extends Authenticatable
                     $sum_id=$day_summary->id;
 
                 }
-
+                $this->time_change=$now;
                 $this->current_day_summary=$sum_id;
 
                 $this->save();

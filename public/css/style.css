@@ -110,6 +110,12 @@ html, body {
 	color:#353535;
 	font-weight: 600;
 }
+
+#activity-selector h2{
+	padding-bottom:50px;
+}
+
+
 .accordionhidden{
 	border: 1px solid #808080;
     box-sizing: border-box;
@@ -139,7 +145,8 @@ html, body {
 	box-sizing: border-box;
 	padding:20px;
 	border-radius:10px;
-	border:1px solid #808080;		
+	border:1px solid #808080;
+	margin-top:50px;		
 }
 
 #backbutton{

@@ -14,4 +14,8 @@ class project extends Model
     public function bookedOutParts(){
     	return $this->hasMany('App\bookedOutPart', 'project_id');
 	}
+
+ 	public function workDone(){
+ 		return $this->hasMany('App\work_done','project_id');
+ 	}
 }

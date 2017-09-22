@@ -13,4 +13,8 @@ class tasks extends Model
     public function skills(){
     	return $this->belongsTo('App\skills','skill_id');
     }
+
+ 	public function workDone(){
+ 		return $this->hasMany('App\work_done','task_id');
+ 	}
 }

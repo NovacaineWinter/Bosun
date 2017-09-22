@@ -41,68 +41,43 @@ if(!empty($user->skills)){
             <h2>You are currently on Break</h2>
             <div class="row">
 
-                <div class="col-sm-6" >
-                    <div class="btn btn-info btn-lg loggingbutton" method="logon" id="log-on">
-                        Back to Work
-                    </div>
-                </div>
                 <div class="col-sm-6">
-                    <div class=" btn btn-info btn-lg loggingbutton" method="logoff" id="log-off">
+                    <div class=" btn btn-info btn-lg loggingbutton userLoggedOff" method="setStatus" id="log-off" userID="{{{ $user->id }}}" lunch="0" loggedIn="0" taskID="1">
                         Log Off
                     </div>
                 </div>
+
+
             </div>
         @else
-            <h2>You are currently @if(CONFIG['projects']) working on {{{ $user->task->project->name }}} @endif @if(CONFIG['tasks']) doing {{{$user->task->name}}} @endif @if(!CONFIG['projects']&&!CONFIG['tasks'])logged on @endif</h2>
+            <h2>Status: @if(CONFIG['projects']) working on {{{ $user->task->project->name }}} @endif @if(CONFIG['tasks']) -  {{{$user->task->name}}} @endif @if(!CONFIG['projects']&&!CONFIG['tasks'])logged on @endif</h2>
 
-            <div class="row">
-                
+            <div class="row">              
 
-                @if(CONFIG['projects'] || CONFIG['tasks'])
 
-                    <div class="col-sm-4">
-                        <div class=" btn btn-info btn-lg loggingbutton userOnLunch" method="lunch" id="lunch">
+                    <div class="col-sm-6">
+                        <div class=" btn btn-info btn-lg loggingbutton userOnLunch" method="setStatus" id="lunch" userID="{{{ $user->id }}}" lunch="1" loggedIn="1" taskID="1">
                             Lunch Break
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
-                        <div class="btn btn-info btn-lg loggingbutton userWorking" method="logon" id="log-on">
-                            Change Job
+
+                    <div class="col-sm-6">
+                        <div class="btn btn-info btn-lg loggingbutton userLoggedOff" method="setStatus" id="log-off" userID="{{{ $user->id }}}" lunch="0" loggedIn="0" taskID="1">
+                            Log Off
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
-                        <div class="btn btn-info btn-lg loggingbutton userLoggedOff" method="logoff" id="log-off">
-                            Log Off
-                        </div>
-                    </div>
-                @else
-                    <div class="col-sm-6">
-                        <div class="btn btn-info btn-lg loggingbutton userOnLunch" method="lunch" id="lunch">
-                            Lunch Break
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="btn btn-info btn-lg loggingbutton userLoggedOff" method="logoff" id="log-off">
-                            Log Off
-                        </div>
-                    </div>
-                @endif
+
 
             </div>
         @endif
     @else
         <h2>You are currently logged off</h2>
 
-        <div class="col-sm-6">
-            <div class="btn btn-info btn-lg loggingbutton userWorking" method="logon" id="log-on">
-                Log On
-            </div>
-        </div>
 
         <div class="col-sm-6">
-            <div class="btn btn-info btn-lg loggingbutton userOnLunch" method="lunch" id="lunch">
+            <div class="btn btn-info btn-lg loggingbutton userOnLunch" method="setStatus" id="lunch" userID="{{{ $user->id }}}" lunch="1" loggedIn="1" taskID="1">
                 Lunch Break
             </div>
         </div>
@@ -111,7 +86,7 @@ if(!empty($user->skills)){
 
     <div class="col-sm-8 col-sm-offset-2 userLoggedOff" id="job-selection-holder">       
     
-        <h2>Choose Job</h2>
+        <h1>Choose Job</h1>
 
         @if(CONFIG['workers_choose_project'])
 
@@ -120,11 +95,34 @@ if(!empty($user->skills)){
 
             $(document).ready(function() {
                 $('.accordionhidden').hide(0);
+                $('.accordionhidden').attr('folded',1);
             });
 
             $('.project-accordion').click(function() {
-                projectID = $(this).attr('projectID');
-                $('#task-accordion-folds-for-project-id-'+projectID).slideToggle(400);
+
+                $('.accordionhidden').slideUp(400);                
+
+                if($(this).attr('folded')==1){                   
+                    $('html, body').animate({
+                        scrollTop: $("#job-selection-holder").offset().top
+                    }, 500);
+
+                    projectID = $(this).attr('projectID');
+                    $('#task-accordion-folds-for-project-id-'+projectID).slideDown(400);
+                    $(this).attr('folded',0);
+
+                }else{
+
+                    $('html, body').animate({
+                        scrollTop: $("#ajax-target").offset().top
+                    }, 500);                    
+                    projectID = $(this).attr('projectID');
+                    $('#task-accordion-folds-for-project-id-'+projectID).slideUp(400);
+                    $(this).attr('folded',1);
+                }
+
+
+
             });
         </script>
 
@@ -167,21 +165,48 @@ if(!empty($user->skills)){
                 }
             });
 
-            $.ajax({
-                url: "{{url('/logging/ajax')}}",
-                method: 'GET',
-                data: {
-                    ajaxmethod: ajaxMethod,
-                },
-                success: function(response) {
-                    $('#ajax-target').html(response);                                  
+            if(ajaxMethod=='setStatus'){
 
-                },
-                error: function(response) {
-                    console.log('There was an error - it was:');
-                    console.dir(response);
-                }
-            });
+                $.ajax({
+                    url: "{{url('/logging/ajax')}}",
+                    method: 'GET',
+                    data: {
+                        ajaxmethod: ajaxMethod,
+                        userID:     $(this).attr('userID'),
+                        lunch:      $(this).attr('lunch'),
+                        loggedIn:   $(this).attr('loggedIn'),
+                        taskID:     $(this).attr('taskID'),
+                    },
+                    success: function(response) {
+                        $('#ajax-target').html(response);                                  
+
+                    },
+                    error: function(response) {
+                        console.log('There was an error - it was:');
+                        console.dir(response);
+                    }
+                });                
+
+            }else{
+
+
+                $.ajax({
+                    url: "{{url('/logging/ajax')}}",
+                    method: 'GET',
+                    data: {
+                        ajaxmethod: ajaxMethod,
+                    },
+                    success: function(response) {
+                        $('#ajax-target').html(response);                                  
+
+                    },
+                    error: function(response) {
+                        console.log('There was an error - it was:');
+                        console.dir(response);
+                    }
+                });
+
+            }
         }
     });
 </script>
