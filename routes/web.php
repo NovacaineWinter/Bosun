@@ -67,8 +67,6 @@ Route::get('stock/value',['uses'=>'stockController@stockValue']);
 Route::get('projects',['uses'=>'projectController@listProjects']);
 
 
-Route::get('fixprice',['uses'=>'stockController@fixPricingError']);
-
 
 /* Routes for authenticating users - Laravel defined ones */
 /**/

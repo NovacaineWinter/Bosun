@@ -34,18 +34,6 @@ class stockController extends Controller
 
 	}
 
-	public function fixPricingError(){
-		$bookedOutParts = bookedOutPart::all();
-		foreach($bookedOutParts as $bookedOutPart){
-			if(!$bookedOutPart->is_fixed){
-				$oldPrice=$bookedOutPart->exVatCost;
-				$vatMultiplier = $bookedOutPart->item->vatRate->multiplier;
-				$bookedOutPart->exVatCost=$oldPrice / $vatMultiplier;
-				$bookedOutPart->is_fixed = true;
-				$bookedOutPart->save();
-			}
-		}
-	}
 
 	public function stockValue(){
 		$stock = stock::all();
