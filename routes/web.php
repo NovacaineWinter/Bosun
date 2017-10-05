@@ -28,6 +28,11 @@ define('CONFIG',array(
 	'stock_locations'=>$stock_locations
 	));
 
+define('SETUPPARAMS',array(
+	'lunchTaskID'	=>1,
+	'lunchProjectID'=>1
+));
+
 define('TERMINAL_IDS_ARRAY',array(123));
 
 Route::get('/',['middleware'=>'terminal', function () {
@@ -62,6 +67,12 @@ Route::get('stock/booked-out-stock',['uses'=>'stockController@bookedOutStock']);
 
 
 Route::get('projects',['uses'=>'projectController@listProjects']);
+
+
+
+
+Route::get('reporting',['uses'=>'reportingController@onDayByUser']);
+
 
 
 

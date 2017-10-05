@@ -104,6 +104,7 @@ class LoggingInitialTables extends Migration
             $h->integer('schedule_no')->nullable();
             $h->boolean('has_logged_in')->nullable();
             $h->boolean('is_timesheeted')->nullable();
+            $h->boolean('user_requested_amendment')->default(false)->nullable();
             $h->timestamps();
         });
 

@@ -54,6 +54,21 @@ html, body {
 
 
 
+.timesummarytable td{
+	font-weight:600;
+}
+
+.timesummarytable th{
+	text-align: center;
+	font-size: 16px;
+	color:#333333;
+}
+.timesummarytable{
+	width:80%;
+	margin:auto;
+}
+
+
 .staff-grid-view-box{
 	text-align:center;
 	border:1px solid #e7e7e7;
@@ -101,9 +116,10 @@ html, body {
     background-color: #fafafa;
     border-radius: 20px;
     position:relative;
+    min-width: 90%;
 }
 
-#activity-selector .loggingbutton{
+#ajax-target .loggingbutton{
 	box-sizing: border-box;
 	padding:20px 20px;
 	width:100%;

@@ -183,7 +183,7 @@ class User extends Authenticatable
                 $day_summary=day_summary::where('user_id','=',$this->id)
                     ->where('year','=',date("Y"))
                     ->where('week','=',date("W"))
-                    ->where('day','=',date("d"))
+                    ->where('day','=',date("N"))
                     ->first();
 
 
@@ -252,7 +252,7 @@ class User extends Authenticatable
                     $day_summary->user_id=$this->id;
                     $day_summary->year=date('Y');
                     $day_summary->week=date('W');
-                    $day_summary->day=date('d');
+                    $day_summary->day=date('N');
                     $day_summary->time_in_stamp=$now;
                     $day_summary->save();
                     $sum_id=$day_summary->id;

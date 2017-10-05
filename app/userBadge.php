@@ -9,7 +9,7 @@ class staffBadge extends Model
 
 	protected $table = 'userBadges';
 
-	public function staff(){
+	public function user(){
 		return $this->belongsTo('App\User','user_id');
 	}
 }

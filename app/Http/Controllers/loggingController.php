@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Cookie;
+use App\work_done;
+use App\day_summary;
 
 
 /*  This function lives here as I've currently got nowhere better to store it - it needs to be moved into its own included file i think  */
@@ -46,13 +48,33 @@ class LoggingController extends Controller
                         $statusInfo['loggedIn']= $request->get('loggedIn');
                         $statusInfo['onLunch']= $request->get('lunch');
                         $statusInfo['taskID']= $request->get('taskID');
+                        $statusInfo['worker']= $worker;
 
                         $worker->change_activity($statusInfo['loggedIn'],$statusInfo['onLunch'],$statusInfo['taskID']);
 
-                        return view('outside.logging.ajax.logging_complete')->with('StatusInfo',$statusInfo);
+                        return view('outside.logging.ajax.logging_complete')->with('statusInfo',$statusInfo);
 
+
+                        
                     }else{
                         echo 'There was a problem logging your work activity- Some data was absent - please try again';
+                    }
+                    break;
+
+                case 'returnToLoggingHome':
+                    return view('outside.logging.index');
+                    break;
+
+
+                case 'requestAmendment':
+                    if($request->has('daySummaryID')){
+
+                        $daySummary = day_summary::find($request->geT('daySummaryID'));
+                        $daySummary->user_requested_amendment = 1;
+                        $daySummary->save();
+                        return view('outside.logging.ajax.amendmentRequested');
+                    }else{
+                        return view('outside.logging.index');
                     }
                     break;
 
@@ -172,7 +194,7 @@ class LoggingController extends Controller
         			break;
     		}
     	}else{
-    		echo '<script>window.location.replace("'.url("/logging").'");</script>';
+    		return view('outside.logging.index');
     	}
 	}
 
