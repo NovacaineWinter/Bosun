@@ -34,6 +34,19 @@ class stockController extends Controller
 
 	}
 
+	public function fixPricingError(){
+		$bookedOutParts = bookedOutPart::all();
+		foreach($bookedOutParts as $bookedOutPart){
+			if(!$bookedOutPart->is_fixed){
+				$oldPrice=$bookedOutPart->exVatCost;
+				$vatMultiplier = $bookedOutPart->item->vatRate->multiplier;
+				$bookedOutPart->exVatCost=$oldPrice / $vatMultiplier;
+				$bookedOutPart->is_fixed = true;
+				$bookedOutPart->save();
+			}
+		}
+	}
+
 	public function stockValue(){
 		$stock = stock::all();
 		$projects = project::where('can_book_parts_to','=',1)->get();;
@@ -133,12 +146,13 @@ class stockController extends Controller
 			$items=$codes->pluck('item');
 
 		}else{
-			$items=stock::
+			$allItems=stock::
 				  where('name','LIKE','%'.$keyword.'%')
 				->where('category_id',$categorySQLOperator,$requestedCategory)
-				->where('subcategory_id',$subcategorySQLOperator,$requestedSubcategory)	
-				->take($numToShow)			
+				->where('subcategory_id',$subcategorySQLOperator,$requestedSubcategory)			
 				->get();
+			$items = $allItems->sortByDesc('is_highlighted')
+				->take($numToShow);
 		}
 
 		//find if the search string matches the stock code exactley
@@ -336,7 +350,7 @@ class stockController extends Controller
 								->where('prefered','=','1')->first();
 
 							
-							$bookedOutItem->exVatCost =$itemCode->grossCost;
+							$bookedOutItem->exVatCost =$itemCode->netCost;
 							$bookedOutItem->save();
 						}
 
@@ -441,6 +455,8 @@ class stockController extends Controller
 
 				case 'supplierNetCostChange':
 					$code=stockCode::find($request->get('targetID'));
+					$vatMultiplier = $code->item->vatRate->multiplier;
+					$code->grossCost = $request->get('value') * $vatMultiplier;
 					$code->netCost = $request->get('value');
 					$code->save();
 					return view('inside.stock.ajax.item_detail')->with('item',stock::find($code->stock_id));
@@ -449,6 +465,8 @@ class stockController extends Controller
 				case 'supplierGrossCostChange':
 					$code=stockCode::find($request->get('targetID'));
 					$code->grossCost = $request->get('value');
+					$vatMultiplier = $code->item->vatRate->multiplier;
+					$code->netCost = $request->get('value') / $vatMultiplier;
 					$code->save();
 					return view('inside.stock.ajax.item_detail')->with('item',stock::find($code->stock_id));
 					break;
