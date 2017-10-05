@@ -22,6 +22,7 @@ $suppliers = supplier::all()->sortBy('name');
 <div id="modalcontainer"></div>
 <div class="container">
 <a href="{{{ url('projects') }}}" class="pull-right btn-border btn-lg">View Projects</a>
+<a href="{{{ url('stock/value') }}}" class="pull-right btn-border btn-lg">View Financials</a>
     <div class="col-md-12">
         <table id="stocktable" style="width:100%;">
             <thead>

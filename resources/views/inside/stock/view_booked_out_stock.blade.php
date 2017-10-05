@@ -24,11 +24,12 @@ $project = project::find($request->get('project_id'));
             <thead>               
                 <tr>                
                     <!--<th>Thumbnail</th>-->
-                    <th class="rightborder topborder"><h4>Name</h4></th>
-                    <th class="rightborder topborder"><h4>Category</h4></th>
-                    <th class="rightborder topborder"><h4>Subcategory</h4></th>
-                    <th class="rightborder topborder"><h4>Supplier</h4></th>
-                    <th class="rightborder topborder"><h4>Qty Booked Out</h4></th>
+                    <th class="rightborder topborder"><h4>Stock Code</h4></th>
+                    <th class="rightborder topborder"><h4>Name</h4></th>         
+                    <th class="rightborder topborder"><h4>Qty Booked Out</h4></th>           
+                    <th class="rightborder topborder"><h4>Unit Net Cost</h4></th>
+                    <th class="rightborder topborder"><h4>Total Net Cost</h4></th>
+                    
                     <th class="topborder"><!-- View button --></th>
                 </tr>
 
@@ -43,31 +44,34 @@ $project = project::find($request->get('project_id'));
                     <?php $i++; 
                     $item = $itemCollection->item;
                     ?>
-                        <tr id="row-for-item{{{ $item->id }}}" class="ajaxstockitem topborder <?php if($i%2){if($item->is_highlighted){echo 'darkorange-bg';}else{echo 'oddrow';}}else{if($item->is_highlighted){echo 'orange-bg';}else{echo 'evenrow';}} ?>">                
+                        <tr id="row-for-item{{{ $item->id }}}" class="ajaxstockitem topborder <?php if($i%2){if($item->is_highlighted){echo 'darkorange-bg';}else{echo 'oddrow';}}else{if($item->is_highlighted){echo 'orange-bg';}else{echo 'evenrow';}} ?>" style="text-align: center;">  
+
                             <!--<th>Thumbnail</th>-->
                             <td class="rightborder">
-                                <input type="text" style="width:100%;" class="updateabletextbox" value="{{{ $item->name }}}" targetID="{{{ $item->id }}}" method="changeItemName" readonly>
+                               {{{ $item->supplierCodes->sortByDesc('prefered')->first()->code }}}
                             </td>
 
-                            <td id="item-{{{$item->id}}}-category-indicator-holder" class="rightborder categoryIndicator" itemID="{{{ $item->id }}}" targetID="{{{ $item->category->id }}}">
-                                {{{ $item->category->name }}}
+                            <td class="rightborder">
+                                {{{ $item->name }}}
                             </td>
 
-                            <td id="item-{{{$item->id}}}-subcategory-indicator-holder" class="rightborder subcategoryIndicator" itemID="{{{ $item->id }}}" parentID="{{{ $item->category->id }}}" targetID="{{{ $item->subCategory->id }}}">
-                                {{{ $item->subCategory->name }}}
+                            <td class="rightborder">
+                                {{{ $itemCollection->qty }}}
                             </td>
 
-                            <td class="rightborder">@if(!empty($item->supplierCodes->sortByDesc('prefered')->first()->supplier->name)) {{{ $item->supplierCodes->sortByDesc('prefered')->first()->supplier->name }}}  @endif</td>
-                            <td class="rightborder text-right">{{{ $itemCollection->qty }}}</td>
+                            <td class="rightborder">
+                                &pound;{{{ $item->supplierCodes->sortByDesc('prefered')->first()->grossCost }}}
+                            </td>
+                            
+                            <td class="rightborder">
+                                &pound;{{{ round($item->supplierCodes->sortByDesc('prefered')->first()->grossCost * $itemCollection->qty, 2)  }}}
+                            </td>
+
+
+                            
                             <td class="stock-item-detail-button btn" style="cursor:pointer;" onClick="openModal('unBookItem',{{{ $itemCollection->id }}});">Un-Book</td>
                         </tr>
                         
-                        <tr class="rightborder">
-                            <td colspan="7" class="text-centered to-reveal itemdetailcontainer" id="item-detail-{{{$item->id}}}">           
-                                
-                            </td>
-                        </tr>
-
                     @endforeach
                 @endif
             @endif

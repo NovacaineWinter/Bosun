@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\supplier;
+use App\project;
 use App\stock;
 use App\stockCode;
 use App\stockCategory;
@@ -31,6 +32,32 @@ class stockController extends Controller
     		return '';
     	}
 
+	}
+
+
+	public function stockValue(){
+		$stock = stock::all();
+		$projects = project::where('can_book_parts_to','=',1)->get();;
+
+		$totalValue = 0;
+		foreach($stock as $item){
+			$currentItemValue = $item->qtyInStock * $item->supplierCodes->sortByDesc('prefered')->first()->netCost;
+			$totalValue = $totalValue + $currentItemValue;
+		}
+
+		$toSendOn=array('storesValue'=>$totalValue);
+		$toSendOn['projects']=array();
+
+		foreach($projects as $project){
+			$projectTotalValue=0;
+			foreach($project->bookedOutParts as $part){
+				$toAdd = $part->qty * $part->exVatCost;
+				$projectTotalValue = $projectTotalValue + $toAdd; 
+			}
+			$toSendOn['projects'][]=array('project'=>$project,'wip'=>$projectTotalValue);
+		}
+		
+		return view('inside.stock.value_summary')->with('data',$toSendOn);
 	}
 
 
@@ -107,12 +134,13 @@ class stockController extends Controller
 			$items=$codes->pluck('item');
 
 		}else{
-			$items=stock::
+			$allItems=stock::
 				  where('name','LIKE','%'.$keyword.'%')
 				->where('category_id',$categorySQLOperator,$requestedCategory)
-				->where('subcategory_id',$subcategorySQLOperator,$requestedSubcategory)	
-				->take($numToShow)			
+				->where('subcategory_id',$subcategorySQLOperator,$requestedSubcategory)			
 				->get();
+			$items = $allItems->sortByDesc('is_highlighted')
+				->take($numToShow);
 		}
 
 		//find if the search string matches the stock code exactley
@@ -273,9 +301,21 @@ class stockController extends Controller
 				case 'bookOutItem':
 					if($request->has('qtyToRemove') && $request->has('projectID') && $request->has('itemID')){
 						$stockItem=stock::find($request->get('itemID'));
+
+						$toRemove = $request->Get('qtyToRemove');
+
 						$oldStock=$stockItem->qtyInStock;
-						$newStock=$oldStock-$request->get('qtyToRemove');
+						if($oldStock<=0){
+							$toRemove=0;
+						}elseif($oldStock<$toRemove){
+							$toRemove = $oldStock;
+						}
+						$newStock=$oldStock-$toRemove;
 						$stockItem->qtyInStock=$newStock;
+
+						if($stockItem->qtyInStock < $stockItem->reorderQty){
+							$stockItem->is_highlighted=1;
+						}
 						$stockItem->save();
 
 
@@ -283,7 +323,7 @@ class stockController extends Controller
 						
 						if(!empty($alreadyExists)){
 							$currentQty = $alreadyExists->qty;
-							$alreadyExists->qty = $currentQty + $request->get('qtyToRemove');
+							$alreadyExists->qty = $currentQty + $toRemove;
 							$alreadyExists->save();
 
 						}else{
@@ -291,14 +331,14 @@ class stockController extends Controller
 							$bookedOutItem= new bookedOutPart;
 							$bookedOutItem->stock_id=$request->get('itemID');
 							$bookedOutItem->project_id=$request->get('projectID');
-							$bookedOutItem->qty = $request->get('qtyToRemove');
+							$bookedOutItem->qty = $toRemove;
 
 							//this may need to change for FIDO / LIFO stock controlling
 							$itemCode=stockCode::where('stock_id','=',$request->get('itemID'))
 								->where('prefered','=','1')->first();
 
 							
-							$bookedOutItem->exVatCost =$itemCode->grossCost;
+							$bookedOutItem->exVatCost =$itemCode->netCost;
 							$bookedOutItem->save();
 						}
 
@@ -403,6 +443,8 @@ class stockController extends Controller
 
 				case 'supplierNetCostChange':
 					$code=stockCode::find($request->get('targetID'));
+					$vatMultiplier = $code->item->vatRate->multiplier;
+					$code->grossCost = $request->get('value') * $vatMultiplier;
 					$code->netCost = $request->get('value');
 					$code->save();
 					return view('inside.stock.ajax.item_detail')->with('item',stock::find($code->stock_id));
@@ -411,6 +453,8 @@ class stockController extends Controller
 				case 'supplierGrossCostChange':
 					$code=stockCode::find($request->get('targetID'));
 					$code->grossCost = $request->get('value');
+					$vatMultiplier = $code->item->vatRate->multiplier;
+					$code->netCost = $request->get('value') / $vatMultiplier;
 					$code->save();
 					return view('inside.stock.ajax.item_detail')->with('item',stock::find($code->stock_id));
 					break;

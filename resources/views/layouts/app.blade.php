@@ -17,6 +17,9 @@
         <!--  Master Stylesheet  -->
         <link href="{{ url('css/style.css')}}" rel="stylesheet" type="text/css">
 
+        <!--  git master Stylesheet  -->
+        <link href="{{ url('css/data-output.css')}}" rel="stylesheet" type="text/css">
+
         <!--  jQuery from Google CDN  -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 

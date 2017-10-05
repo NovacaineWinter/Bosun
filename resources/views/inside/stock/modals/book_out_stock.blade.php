@@ -25,7 +25,7 @@ $item = stock::find($request->get('targetID'));
             </div>
             <div class="modalInputContainer">
 
-                <input type="number" id="qtyToBookOutInput" value="0" min="0" max="{{{ $item->qtyInStock }}}">
+                <input type="number" id="qtyToBookOutInput"  value="0" min="0" max="{{{ $item->qtyInStock }}}">
 
             </div>
         </div>
@@ -59,6 +59,17 @@ $item = stock::find($request->get('targetID'));
 
 @section('inline-script')
 <script>
+
+
+$('#qtyToBookOutInput').change(function() {
+    if(parseFloat($(this).val())>parseFloat($(this).attr('max'))){
+        $(this).val($(this).attr('max'));
+    }
+});
+
+
+
+
     $('#bookOutParts').click(function() {
 
         itemIDvar=$('#bookOutParts').attr('targetID');
