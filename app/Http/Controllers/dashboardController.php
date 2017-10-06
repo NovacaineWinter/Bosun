@@ -25,7 +25,7 @@ class DashboardController extends Controller
 
 	 		switch($request->input('ajaxmethod')){
 
-
+ 
 /*Workers*/		case 'workers':
 	 				if($request->has('workerID')){
 

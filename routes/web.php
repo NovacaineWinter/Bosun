@@ -20,8 +20,8 @@ $stock_locations=array(
 	);
 
 define('CONFIG',array(
-	'rfid'=>0,
-	'grid'=>1,
+	'rfid'=>1,
+	'grid'=>0,
 	'projects'=>1,
 	'tasks'=>1,
 	'workers_choose_project'=>1,
