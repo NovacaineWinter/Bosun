@@ -60,11 +60,11 @@ $project = project::find($request->get('project_id'));
                             </td>
 
                             <td class="rightborder">
-                                &pound;{{{ $item->supplierCodes->sortByDesc('prefered')->first()->grossCost }}}
+                                &pound;{{{ $itemCollection->exVatCost }}}
                             </td>
                             
                             <td class="rightborder">
-                                &pound;{{{ round($item->supplierCodes->sortByDesc('prefered')->first()->grossCost * $itemCollection->qty, 2)  }}}
+                                &pound;{{{ round($itemCollection->exVatCost * $itemCollection->qty, 2)  }}}
                             </td>
 
 

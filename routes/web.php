@@ -67,6 +67,7 @@ Route::get('stock/value',['uses'=>'stockController@stockValue']);
 Route::get('projects',['uses'=>'projectController@listProjects']);
 
 Route::get('bugfix',['uses'=>'stockController@bugfix']);
+Route::get('reprice',['uses'=>'stockController@repriceBookedOutStock']);
 
 
 /* Routes for authenticating users - Laravel defined ones */

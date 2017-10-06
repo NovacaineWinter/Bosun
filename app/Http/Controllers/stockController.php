@@ -35,6 +35,15 @@ class stockController extends Controller
 	}
 
 
+	public function repriceBookedOutStock(){
+		$bookedOutStock = bookedOutPart::all();
+		foreach($bookedOutStock as $bookedOutPart){
+			$bookedOutPart->exVatCost = $bookedOutPart->item->supplierCodes->first()->netCost;
+			$bookedOutPart->save();
+		}
+	}
+
+
 	public function bugfix(){
 		$stockCodes = stockCode::all();
 		$items = stock::all();
