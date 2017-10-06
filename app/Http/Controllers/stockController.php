@@ -35,6 +35,39 @@ class stockController extends Controller
 	}
 
 
+	public function bugfix(){
+		$stockCodes = stockCode::all();
+		$items = stock::all();
+		$withUserError=array();
+		$retailError=array();
+		echo 'Cost Price error stock Codes:';
+		foreach($stockCodes as $stockCode){
+			$vatMultiplier = $stockCode->item->vatRate->multiplier;
+			if((round($stockCode->netCost*$vatMultiplier,2))>$stockCode->grossCost+0.01 ||(round($stockCode->netCost*$vatMultiplier,2))<$stockCode->grossCost-0.01 ){
+				$withUserError[]=$stockCode;
+			}			
+		}
+		foreach($withUserError as $error){
+			print($error->code.'<br>');
+		}
+
+		foreach($items as $item){
+			$vatMultiplier = $item->vatRate->multiplier;
+
+			if((round($item->retailEx*$vatMultiplier,2))>$item->retailInc+0.01 ||(round($item->retailEx*$vatMultiplier,2))<$item->retailInc-0.01 ){
+				$withUserError[]=$stockCode;
+				$retailError[]=$item;
+			}		
+		}
+		echo '<br><br>Retail Error Stock Codes:<br><br>';
+		if(count($retailError)>0){
+
+			foreach($retailError as $retError){
+				print($retError->supplierCodes->first()->code.'<br>');
+			}
+		}
+	}
+
 	public function stockValue(){
 		$stock = stock::all();
 		$projects = project::where('can_book_parts_to','=',1)->get();;
@@ -428,8 +461,10 @@ class stockController extends Controller
 					break;
 
 				case 'retailEx':
-					$stockItem=stock::find($request->get('targetID'));
+					$stockItem=stock::find($request->get('targetID'));					
 					$stockItem->retailEx = $request->get('value');
+					$vatMultiplier=$stockItem->vatRate->multiplier;
+					$stockItem->retailInc = $stockItem->retailEx * $vatMultiplier;
 					$stockItem->save();
 					return view('inside.stock.ajax.item_detail')->with('item',stock::find($request->get('targetID')));
 					break;
@@ -437,6 +472,8 @@ class stockController extends Controller
 				case 'retailInc':
 					$stockItem=stock::find($request->get('targetID'));
 					$stockItem->retailInc = $request->get('value');
+					$vatMultiplier=$stockItem->vatRate->multiplier;
+					$stockItem->retailEx = $stockItem->retailInc / $vatMultiplier;
 					$stockItem->save();
 					return view('inside.stock.ajax.item_detail')->with('item',stock::find($request->get('targetID')));
 					break;
