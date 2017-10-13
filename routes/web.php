@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+/*
 $stock_locations=array(
 	'building'	=>1,
 	'isle'		=>0,
@@ -20,8 +22,8 @@ $stock_locations=array(
 	);
 
 define('CONFIG',array(
-	'rfid'=>1,
-	'grid'=>0,
+	'rfid'=>0,
+	'grid'=>1,
 	'projects'=>1,
 	'tasks'=>1,
 	'workers_choose_project'=>1,
@@ -34,11 +36,14 @@ define('SETUPPARAMS',array(
 ));
 
 define('TERMINAL_IDS_ARRAY',array(123));
+*/
+
+
 
 Route::get('/',['middleware'=>'terminal', function () {
     return response()->view('outside.logging.index');
 }]);
-
+ 
 
 
 /*  Routes set up specifically for Logging  */

@@ -1,5 +1,7 @@
 <?php 
 	use App\User;
+	use App\config;
+	$config = new config;
 	$users = User::where('can_log_hours','=',1)->get();
 ?>
 
@@ -16,7 +18,7 @@
 	
 
 
-	@if(CONFIG['rfid'])
+	@if($config->boolean('rfid'))
 
 	<form method="get" action="">
 		<input style="opacity: 0;" type="text" name="cardID" id="cardidinput" required>		
@@ -64,7 +66,7 @@
 
 	</form>
 
-	@elseif(CONFIG['grid'])
+	@elseif($config->boolean('grid'))
 
 	<script>
 		$( document ).ready(function() {
@@ -129,11 +131,11 @@
 
 @section('page_header_1')
 
-	@if(CONFIG['rfid'])
+	@if($config->boolean('rfid'))
 
 		SCAN &nbspID
 
-	@elseif(CONFIG['grid'])
+	@elseif($config->boolean('grid'))
 
 		<!--Create grid view of users -->
 

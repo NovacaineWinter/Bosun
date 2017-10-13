@@ -42,6 +42,13 @@
         <div class="col-xs-2" id="dashboard-sidebar">
             <div class="panel-group" id="accordion">
 
+                
+                <div class="logoholder">
+                    <h4 style="font-size: 38px;padding: 9px 0px; text-align: center;">
+                        BOSUN
+                    </h4>
+                </div>
+            
 
                 <div method="workers" class="panel panel-default ajax-clickable">
                     <div class="panel-heading">
@@ -62,10 +69,10 @@
 
 
 
-                <div class="panel panel-default">
+                <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Add New...</a>
+                            <a>Add New...</a>
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
@@ -78,10 +85,10 @@
                 </div>
 
 
-                <div class="panel panel-default">
+                <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Settings</a>
+                            <a>Settings</a>
                         </h4>
                     </div>
                     <div id="collapse3" class="panel-collapse collapse">
@@ -99,26 +106,26 @@
             <nav id="dashboard-nav">
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn">
+                    <div class="dashboard-nav-btn nav-selected" method="dashboardOverview">
                         <h3>This Month</h3>
                     </div>
                 </div>
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn">
+                    <div class="dashboard-nav-btn" method="projectsDashboard">
                         <h3>Projects</h3>
                     </div>
                 </div>
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn nav-selected">
-                        <h3>Payroll</h3>
+                    <div class="dashboard-nav-btn" method="payrollDashboard">
+                        <h3>Workers</h3>
                     </div>
                 </div>
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn">
-                        <h3>Logging</h3>
+                    <div class="dashboard-nav-btn" method="loggingDashboard">
+                        <h3>Real Time</h3>
                     </div> 
                 </div>
             </nav>
@@ -127,6 +134,61 @@
             </div>
             
         </div>
+
+
+        <script>
+            $(document).ready(function() {
+
+                $('.dashboard-nav-btn').click(function() {
+                    method = $(this).attr('method');
+                    $('.dashboard-nav-btn').removeClass('nav-selected');
+                    $(this).addClass('nav-selected');
+                    $.ajax({
+                        url: "{{url('/ajax')}}",
+                        method: 'GET',
+                        data: {
+                            ajaxmethod: method,
+                        },
+                        success: function(response) {  
+                            $("#dashboard-ajax-container").html(response);
+                        },
+                        
+                        error: function(response) {
+                            console.log('There was an error - it was:');
+                            console.dir(response);
+                        }
+                    });
+
+                });
+
+
+                $('.ajax-clickable').click(function() {
+
+                    clickedMethod=$(this).attr('method');
+
+                    $.ajax({
+                        url: "{{url('/ajax')}}",
+                        method: 'GET',
+                        data: {
+                            ajaxmethod: clickedMethod,
+                        },
+                        success: function(response) {
+                            $('#dashboard-ajax-container').html(response);
+                            
+                        },
+                        error: function(response) {
+                            console.log('There was an error - it was:  '+response);
+                        }
+                    });
+                });
+
+
+
+
+
+            });
+
+        </script>
     </div>
 </body>
 </html>

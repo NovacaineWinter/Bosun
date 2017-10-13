@@ -62,6 +62,10 @@ class User extends Authenticatable
         return $this->belongsTo('App\tasks','task_id');
     }
 
+    public function workDone(){
+        return $this->hasMany('App\work_done','user_id');
+    }
+
     public function skills(){
         return $this->belongsToMany('App\skill','user_skills','user_id','skill_id');
     }
@@ -87,7 +91,7 @@ class User extends Authenticatable
         }
     }
 
-    public function change_activity($logged_in,$on_lunch,$task){  
+    public function change_activity($logged_in,$on_lunch,$task){
 
         if( $this->logged_in != $logged_in || $this->on_lunch != $on_lunch || $this->task_id != $task){
 
@@ -265,6 +269,18 @@ class User extends Authenticatable
                 
             }
         }
+    }
+
+    public function hoursWorkedThisMonth(){
+        return '158Hrs 23 mins';
+    }
+
+    public function hoursOvertimeThisMonth(){
+        return '0hrs 48 mins';
+    }
+
+    public function moneyEarnedThisMonth(){
+        return '&pound;2074.54';
     }
 
 

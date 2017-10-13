@@ -516,7 +516,38 @@ html, body {
 }
 
 /* End of default styling */
+.dashboard-table-holder{
+	/*padding-top:50px;*/
+}
+.dashboard-table-holder table,.dashboard-table-holder tr,.dashboard-table-holder td,.dashboard-table-holder th{
+	border:1px solid #e7e7e7;
+	padding:5px 15px;
+	font-family: Raleway;
+	font-weight: 600;
+	color:#808080;
+}
 
+.dashboard-table-holder table {width:100%;margin:auto;}
+
+#dashboard-ajax-container h1,#dashboard-ajax-container h2,#dashboard-ajax-container h3,#dashboard-ajax-container h4{
+	text-align: center;
+}
+.dashboard-table-holder th{
+	text-align: center;
+	color:#333;
+}
+.dashboard-table-holder td .btn{
+	font-weight:600;
+	border:0.5px solid #e7e7e7;
+	padding:3px;
+	display:block;
+}
+
+.fixed-dashboard-scrolling{
+    max-height: 50vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
 
 .row.no-gutters {
   margin-right: 0;
@@ -529,7 +560,7 @@ html, body {
 }
 
 #dashboard-sidebar{
-	padding-top:80px;
+	/*padding-top:80px;*/
 }
 
 #dashboard-sidebar .panel-default{
@@ -804,6 +835,3 @@ html, body {
 .ajax-clickable{
 	cursor: pointer;
 }
-
-
-@media

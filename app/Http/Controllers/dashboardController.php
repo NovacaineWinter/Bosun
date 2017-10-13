@@ -20,13 +20,13 @@ class DashboardController extends Controller
     }
 
 
-    public function ajax(){
+    public function ajax(Request $request){
     	if($request->has('ajaxmethod')){
 
 	 		switch($request->input('ajaxmethod')){
 
  
-/*Workers*/		case 'workers':
+/*Workers*/		case 'worker_detail':
 	 				if($request->has('workerID')){
 
 	 					/* Staff ID has been sent over AJAX so let's pass this info on to the view to render the information as requried */
@@ -46,16 +46,20 @@ class DashboardController extends Controller
 	 				return view('inside.dashboard.ajax.shifts');
 	 				break;
 
-/*projects*/ 	case 'projects':
+/*projects*/ 	case 'projectsDashboard':
 	 				return view('inside.dashboard.ajax.projects');
 	 				break;
 
+	 			case 'dashboardOverview':
+	 				return view('inside.dashboard.overview');
+	 				break;
+
 	 			default:
-	 				return view('inside.dashboard.ajax.index');
+	 				return view('inside.dashboard.overview');
 	 				break;
 	 		}
 	 	}else{
-	 		return view('inside.dashboard.ajax.index');
+	 		return view('inside.dashboard.overview');
 	 	}
     }
 }

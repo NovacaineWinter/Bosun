@@ -18,4 +18,18 @@ class project extends Model
  	public function workDone(){
  		return $this->hasMany('App\work_done','project_id');
  	}
+
+
+ 	public function costOfStockBookedOutThisMonth(){
+ 		return '2235.43';
+ 	}
+
+ 	public function hourSpendThisMonth(){
+ 		return '345 Hrs 08 Mins';
+ 	}
+
+ 	public function labourCostThisMonth(){
+ 		return '4105.53';
+ 	}
+
 }

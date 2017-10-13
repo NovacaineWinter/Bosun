@@ -27,8 +27,14 @@ class LoggingInitialTables extends Migration
             $a->integer('day_summary_id');            
             $a->integer('previous_id');
             $a->integer('next_id')->nullable();
-            $a->boolean('first')->nullable();
-            $a->boolean('last')->nullable();
+            $a->boolean('first')->default(0);
+            $a->boolean('last')->default(0);
+            $a->decimal('base_hourly_rate',10,2);
+            $a->decimal('overtime_multiplier',5,2)->default(1);
+            $a->string('overtime_description')->nullable();
+            $a->boolean('is_overtime')->default(false);
+            $a->integer('payslip_id')->nullable();
+            $a->boolean('is_locked')->default(0);
             $a->timestamps();
         });
 
@@ -43,23 +49,10 @@ class LoggingInitialTables extends Migration
         Schema::create('user_skills', function($t) {
             $t->increments('id');
             $t->integer('user_id');
-            $t->boolean('skill_id');
+            $t->integer('skill_id');
             $t->timestamps();
 
         });
-
-        DB::table('skills')->insert(
-                array(
-                    'name'=>'Lunch',
-                    'description'=>'Non-productive time - to be logged as break',                    
-                    )
-            );
-        DB::table('skills')->insert(
-                array(
-                    'name'=>'Generic Work',
-                    'description'=>'Generic work on unspecified project and unspecified skill',                    
-                    )
-            );
 
 
         Schema::create('payslips', function($d) {
@@ -105,6 +98,7 @@ class LoggingInitialTables extends Migration
             $h->boolean('has_logged_in')->nullable();
             $h->boolean('is_timesheeted')->nullable();
             $h->boolean('user_requested_amendment')->default(false)->nullable();
+            $h->boolean('manager_approves')->default(0);
             $h->timestamps();
         });
 
@@ -139,25 +133,8 @@ class LoggingInitialTables extends Migration
             $x->string('badgeID');
             $x->timestamps();
         });
-    
 
-        DB::table('tasks')->insert(
-            array(
-                'name'=>'Lunch',
-                'skill_id'=>1,
-                'project_id'=>1,
-                'description'=>'Lunch'
-                )
-        );
 
-        DB::table('tasks')->insert(
-            array(
-                'name'=>'Generic Work',
-                'skill_id'=>2,
-                'project_id'=>2,
-                'description'=>'General work task'
-                )
-        );
 
         Schema::table('projects', function (Blueprint $tbl) {
             $tbl->boolean('can_log_hours')->default(1);
@@ -182,6 +159,7 @@ class LoggingInitialTables extends Migration
             $table->integer('last_work_leger_id')->nullable();
             $table->integer('current_day_summary')->nullable();
             $table->boolean('first_activity_for_day')->nullable();
+            $table->integer('time_worked_so_far_this_week')->default(0);
 
             /* General User info */
             $table->integer('role_id')->nullable(); 
@@ -229,6 +207,19 @@ class LoggingInitialTables extends Migration
             /* End of custom Fields */
         });
 
+        Schema::create('config', function (Blueprint $cnf) {
+            $cnf->increments('id');
+            $cnf->string('name')->nullable();
+            $cnf->boolean('boolean')->nullable();
+            $cnf->decimal('decimal')->nullable();
+            $cnf->string('string')->nullable();
+            $cnf->integer('integer')->nullable();
+            $cnf->string('description')->nullable();
+            $cnf->string('group')->nullable();
+            $cnf->timestamps();
+        });
+
+
 
     }
 
@@ -248,7 +239,8 @@ class LoggingInitialTables extends Migration
         Schema::dropIfExists('overtime_rates');        
         Schema::dropIfExists('day_summary');
         Schema::dropIfExists('day_info');
-        Schema::dropIfExists('roles');      
+        Schema::dropIfExists('roles'); 
+        Schema::dropIfExists('config');      
 
         Schema::table('projects', function (Blueprint $tbl) {
             $tbl->dropColumn('can_log_hours');
@@ -257,7 +249,7 @@ class LoggingInitialTables extends Migration
 
 
         Schema::table('tasks', function (Blueprint $tb) {
-            //$tb->dropColumn('task_finished');                       
+            $tb->dropColumn('task_finished');                       
         });
 
 

@@ -7,6 +7,9 @@ use App\User;
 use Response;
 use App;
 use App\project;
+use App\config;
+
+$config = new config;
 
 if(!empty($user->skills)){
 
@@ -50,7 +53,7 @@ if(!empty($user->skills)){
 
             </div>
         @else
-            <h2>Status: @if(CONFIG['projects']) working on {{{ $user->task->project->name }}} @endif @if(CONFIG['tasks']) -  {{{$user->task->name}}} @endif @if(!CONFIG['projects']&&!CONFIG['tasks'])logged on @endif</h2>
+            <h2>Status: @if($config->boolean('projects')) working on {{{ $user->task->project->name }}} @endif @if($config->boolean('tasks')) -  {{{$user->task->name}}} @endif @if(!$config->boolean('projects'))&&!$config->boolean('tasks'))logged on @endif</h2>
 
             <div class="row">              
 
@@ -88,7 +91,7 @@ if(!empty($user->skills)){
     
         <h1>Choose Job</h1>
 
-        @if(CONFIG['workers_choose_project'])
+        @if($config->boolean('workers_choose_project'))
 
 
         <script>     

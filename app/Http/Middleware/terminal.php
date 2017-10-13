@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Cookie;
 use Request;
+use App\config;
+
 
 class terminal
 {
@@ -15,13 +17,12 @@ class terminal
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next)     {
         $the_cookie=Request::cookie('terminal_id');
-
         if ($the_cookie != null) {
+            $config = new config;
 
-            if(in_array($the_cookie,TERMINAL_IDS_ARRAY)){
+            if(in_array($the_cookie,$config->registeredTerminalIds())){
 
                 return $next($request);                
 

@@ -3,26 +3,23 @@
 
 @section('content')
 
-    <div class="col-sm-6">
-        <table style="width:70%;margin:auto;">
-            <thead>
-                <th>Project</th>
-                <th>Hours</th>
-                <th>Labour Cost</th>
-                <th>Parts Cost</th>
-            </thead>
-            <tbody>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="col-sm-6">
-        Labour summary table
-    </div>
-
+<script>
+	$(document).ready(function() {
+		$.ajax({
+            url: "{{url('/ajax')}}",
+            method: 'GET',
+            data: {
+                ajaxmethod: 'home',
+            },
+            success: function(response) {  
+                $("#dashboard-ajax-container").html(response);
+            },
+            
+            error: function(response) {
+                console.log('There was an error - it was:');
+                console.dir(response);
+            }
+        });
+	});
+</script>
 @endsection
-
