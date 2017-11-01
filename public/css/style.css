@@ -637,9 +637,57 @@ html, body {
 	background-color: #fafafa;
 }
 
+.dashboard-clickable{
+	cursor:pointer;
+}
 
+.changeableTextArea{
 
+	border-radius: 10px !important;
+	min-height:100px !important;
+}
 
+#project-info-holder{
+	border:1px solid #808080;
+	margin-top:40px;
+	border-radius: 10px;
+    padding-bottom: 20px;
+}
+
+.project-info-heading{
+	text-align: center;
+	font-weight: 600;
+	border:1px solid #e7e7e7;
+	cursor:pointer;
+}
+.project-info-heading:hover{
+	background-color:#f2f2f2;
+	border:0.5px solid #808080;
+	color:#808080;
+}
+
+.taskrow{
+	background-color:#bae1ff;
+	padding-bottom: 20px;
+    margin: 25px 0px;
+    border-radius: 5px;
+    border: 1px solid #1a9cff;
+}
+
+.ajaxcheckboxholder input[type=checkbox]{
+	display:none;
+}
+.ajaxcheckboxholder label span{
+	padding:10px 10px;
+	background-color:#fafafa;
+	color:#e7e7e7;
+	border-radius:4px;
+}
+.ajaxcheckboxholder  input:checked + span {
+    background-color:#baffc9;
+    color:#33ff5f;
+    border:1px solid #33ff5f;
+}
 
 
 /**  Styling for Form elements  **/

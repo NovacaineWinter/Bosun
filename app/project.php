@@ -32,4 +32,15 @@ class project extends Model
  		return '4105.53';
  	}
 
+ 	public function totalCostOfStockBookedOut(){
+ 		return 'totalCostOfStock';
+ 	}
+
+ 	public function totalLabourCost(){
+ 		return 'totalLabourCost';
+ 	}
+
+ 	public function totalHourSpend(){
+ 		return 'totalHourSpend';
+ 	}
 }

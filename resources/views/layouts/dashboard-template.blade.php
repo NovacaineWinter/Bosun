@@ -106,25 +106,25 @@
             <nav id="dashboard-nav">
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn nav-selected" method="dashboardOverview">
+                    <div class="dashboard-nav-btn nav-selected" id="dashboardOverview" method="dashboardOverview">
                         <h3>This Month</h3>
                     </div>
                 </div>
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn" method="projectsDashboard">
+                    <div class="dashboard-nav-btn" id="projectsDashboard" method="projectsDashboard">
                         <h3>Projects</h3>
                     </div>
                 </div>
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn" method="payrollDashboard">
+                    <div class="dashboard-nav-btn" id="workersDashboard" method="workersDashboard">
                         <h3>Workers</h3>
                     </div>
                 </div>
 
                 <div class="col-xs-3 adjacentcells">
-                    <div class="dashboard-nav-btn" method="loggingDashboard">
+                    <div class="dashboard-nav-btn" id="realtimeDashboard" method="realtimeDashboard">
                         <h3>Real Time</h3>
                     </div> 
                 </div>
@@ -181,9 +181,6 @@
                         }
                     });
                 });
-
-
-
 
 
             });

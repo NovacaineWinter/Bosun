@@ -13,7 +13,7 @@ if($config->boolean('projects')){
 }
 
 
-$projects = Project::whereNotIn('id',$defaultProjectIds)->get();
+$projects = Project::whereNotIn('id',$defaultProjectIds)->where('is_finished','=',0)->get();
 ?>
 
 
@@ -23,7 +23,7 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->get();
     <h1>This Month</h1>
     <div class="col-sm-6">
         <div class="col-xs-10 col-xs-offset-1">
-            <h4>Projects</h4>
+            <h3 class="ajax-clickable" method="projectsDashboard"}}}">Projects</h3>
             <table>
                 <thead>
                     <th>Project</th>
@@ -39,7 +39,7 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->get();
                     @if($projects->count() > 0)
                         @foreach($projects as $project)
                             <tr>
-                                <td>{{{  $project->name  }}}</td>
+                                <td class="dashboard-clickable" method="project-summary" target="{{{ $project->id }}}">{{{ $project->name  }}}</td>
                                 @if($config->boolean('has_logging'))                                    
                                     <td>{{{  $project->hourSpendThisMonth()  }}}</td>
                                     <td>&pound;{{{  $project->labourCostThisMonth()  }}}</td>
@@ -56,6 +56,8 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->get();
                     @endif
                 </tbody>
             </table>
+
+            <!--
             <div class="row">
                 <div class="col-sm-12">
                     @if($config->boolean('projects'))
@@ -65,12 +67,13 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->get();
                     @endif
                 </div>
             </div>
+        -->
         </div>
     </div>
     
     <div class="col-sm-6 fixed-dashboard-scrolling">
         <div class="col-xs-10 col-xs-ofdfset-1">
-            <h4>Workers</h4>
+            <h3>Workers</h3>
             <table>
                 <thead>
                     <tr>
@@ -126,23 +129,57 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->get();
     </div>
 </div>
 <script>
- $('.ajax-clickable').click(function() {
+    $('.ajax-clickable').click(function() {
 
-    clickedMethod=$(this).attr('method');
+        clickedMethod=$(this).attr('method');
 
-    $.ajax({
-        url: "{{url('/ajax')}}",
-        method: 'GET',
-        data: {
-            ajaxmethod: clickedMethod,
-        },
-        success: function(response) {
-            $('#dashboard-ajax-container').html(response);
-            
-        },
-        error: function(response) {
-            console.log('There was an error - it was:  '+response);
-        }
+        $.ajax({
+            url: "{{url('/ajax')}}",
+            method: 'GET',
+            data: {
+                ajaxmethod: clickedMethod,
+            },
+            success: function(response) {
+                
+                switch(clickedMethod){
+                    case 'projectsDashboard':
+                        $('.dashboard-nav-btn').removeClass('nav-selected');  
+                        button = $('#projectsDashboard')                      
+                        button.addClass('nav-selected');   
+                        alert(button.attr('method'));                     
+                        break;
+                }
+                $('#dashboard-ajax-container').html(response);
+            },
+            error: function(response) {
+                console.log('There was an error - it was:  '+response);
+            }
+        });
+
+
     });
-});
+    $('.dashboard-clickable').click(function() {
+
+        clickedMethod=$(this).attr('method');
+
+        $.ajax({
+            url: "{{url('/ajax')}}",
+            method: 'GET',
+            data: {
+                ajaxmethod: clickedMethod,
+                target: $(this).attr('target'),
+            },
+            success: function(response) {
+                $('#dashboard-ajax-container').html(response);
+                switch(clickedMethod) {
+                    case 'project-summary':
+                        $('.dashboard-nav-btn').removeClass('nav-selected');                        
+                        break;
+                }
+            },
+            error: function(response) {
+                console.log('There was an error - it was:  '+response);
+            }
+        });
+    });
 </script>

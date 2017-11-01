@@ -139,11 +139,13 @@ class LoggingInitialTables extends Migration
         Schema::table('projects', function (Blueprint $tbl) {
             $tbl->boolean('can_log_hours')->default(1);
             $tbl->integer('default_task')->nullable();  //needs to be nullable as the default task is created after the project is 
+            $tbl->text('description')->default(' ');            
         });
 
 
         Schema::table('tasks', function (Blueprint $tb) {
-            $tb->boolean('task_finished')->default(0);                       
+            $tb->boolean('task_finished')->default(0); 
+            $tb->boolean('task_active')->default(0);                      
         });
 
         Schema::table('users', function (Blueprint $table) {

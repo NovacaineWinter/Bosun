@@ -6,6 +6,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Http\Request;
 
+use App\project;
+use App\tasks;
+
 class DashboardController extends Controller
 {
     public function index() {
@@ -42,6 +45,52 @@ class DashboardController extends Controller
 	 				break;
 
 
+
+	 			case 'project-summary':
+	 				if($request->has('target')){
+	 					return view('inside.dashboard.ajax.project_overview')->with('request',$request);
+	 				}else{
+	 					return view('inside.dashboard.overview');
+	 				}
+	 				break;
+
+	 			case 'changedProjectDescription':
+	 				if($request->has('target')&&$request->has('value')){
+	 					$project = project::find($request->get('target'));
+	 					$project->description = $request->get('value');
+	 					$project->save();
+	 				}
+	 				return;
+
+
+	 			case 'taskactive':
+	 				if($request->has('target')&&$request->has('value')){
+	 					$task = tasks::find($request->get('target'));
+	 					$task->task_active = $request->get('value');
+	 					
+	 					if($request->get('value')){
+		 					$task->task_finished = false;	 						
+	 					}
+	 					$task->save();
+	 				}
+	 				break;
+
+	 			case 'taskfinished':
+	 				if($request->has('target')&&$request->has('value')){
+	 					$task = tasks::find($request->get('target'));
+	 					$task->task_finished = $request->get('value');
+	 					
+	 					if($request->get('value')){
+		 					$task->task_active = false;
+	 					}	 	
+	 					$task->save();
+	 				}
+	 				break;	 				
+
+
+
+
+
 /*shifts*/		case 'shifts':
 	 				return view('inside.dashboard.ajax.shifts');
 	 				break;
@@ -54,6 +103,12 @@ class DashboardController extends Controller
 	 				return view('inside.dashboard.overview');
 	 				break;
 
+	 			case 'realtimeDashboard':
+	 				return view('inside.dashboard.ajax.realtime');
+
+	 			case 'workersDashboard':
+	 				return view('inside.dashboard.ajax.workers');
+	 				break;
 	 			default:
 	 				return view('inside.dashboard.overview');
 	 				break;
