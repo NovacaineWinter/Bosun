@@ -62,6 +62,10 @@ Route::get('stock/insert-select-menu',['uses'=>'stockController@generateSelects'
 Route::get('stock/booked-out-stock',['uses'=>'stockController@bookedOutStock']);
 Route::get('stock/value',['uses'=>'stockController@stockValue']);
 
+Route::get('stock/stockcheck',['uses'=>'stockController@stockCheck']);
+Route::get('stock/check',['uses'=>'stockController@stockCheckHome']);
+Route::get('stock/update',['uses'=>'stockController@updateForStockCheck']);
+
 
 
 Route::get('projects',['uses'=>'projectController@listProjects']);

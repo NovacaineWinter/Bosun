@@ -24,6 +24,7 @@ $project = project::find($request->get('project_id'));
             <thead>               
                 <tr>                
                     <!--<th>Thumbnail</th>-->
+                    <th class="rightborder topborder"><h4>Date</h4></th>
                     <th class="rightborder topborder"><h4>Stock Code</h4></th>
                     <th class="rightborder topborder"><h4>Name</h4></th>         
                     <th class="rightborder topborder"><h4>Qty Booked Out</h4></th>           
@@ -46,6 +47,10 @@ $project = project::find($request->get('project_id'));
                     ?>
                         <tr id="row-for-item{{{ $item->id }}}" class="ajaxstockitem topborder <?php if($i%2){if($item->is_highlighted){echo 'darkorange-bg';}else{echo 'oddrow';}}else{if($item->is_highlighted){echo 'orange-bg';}else{echo 'evenrow';}} ?>" style="text-align: center;">  
 
+                            <td class="rightborder">
+                                {{{  $itemCollection->created_at  }}}
+                            </td>  
+
                             <!--<th>Thumbnail</th>-->
                             <td class="rightborder">
                                {{{ $item->supplierCodes->sortByDesc('prefered')->first()->code }}}
@@ -66,6 +71,8 @@ $project = project::find($request->get('project_id'));
                             <td class="rightborder">
                                 &pound;{{{ round($itemCollection->exVatCost * $itemCollection->qty, 2)  }}}
                             </td>
+
+                          
 
 
                             

@@ -11,6 +11,7 @@ use App\stockCode;
 use App\stockCategory;
 use App\stockSubcategory;
 use App\bookedOutPart;
+use App\stockDifference;
 
 
 class stockController extends Controller
@@ -34,6 +35,38 @@ class stockController extends Controller
 
 	}
 
+
+	public function updateForStockCheck(Request $request){
+		$status=0;
+		if($request->has('item') && $request->has('qty')){
+			$theItem=stock::find($request->get('item'));
+			if($theItem->qtyInStock == $request->get('qty')){
+				$theItem->last_stock_check_timestamp = time();
+				$status = 1;  //ok, do nothing, qty is as expected
+			}else{
+				$theItem->last_stock_check_timestamp = time();
+				$differenceRecord = new stockDifference;
+				$differenceRecord->stock_id = $request->get('item');
+				$differenceRecord->delta = $request->get('qty')-$theItem->qtyInStock;
+				$differenceRecord->save();
+				$theItem->qtyInStock = $request->get('qty');
+				$status = 1; 
+			}
+			$theItem->save();
+		}
+		$res=array('status'=>$status);
+		return $res;
+	}
+
+
+
+	public function stockCheck(Request $request){
+		return view('inside.stock.ajax.stockCheckHome')->with('request',$request);
+	}
+
+	public function stockCheckHome(Request $request){
+		return view('inside.stock.stockcheck')->with('request',$request);
+	}
 
 	public function repriceBookedOutStock(){
 		$bookedOutStock = bookedOutPart::all();
