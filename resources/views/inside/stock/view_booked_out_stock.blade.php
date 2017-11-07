@@ -48,7 +48,7 @@ $project = project::find($request->get('project_id'));
                         <tr id="row-for-item{{{ $item->id }}}" class="ajaxstockitem topborder <?php if($i%2){if($item->is_highlighted){echo 'darkorange-bg';}else{echo 'oddrow';}}else{if($item->is_highlighted){echo 'orange-bg';}else{echo 'evenrow';}} ?>" style="text-align: center;">  
 
                             <td class="rightborder">
-                                {{{  $itemCollection->created_at  }}}
+                                {{{  date('Y-m-d',strtotime($itemCollection->created_at))  }}}
                             </td>  
 
                             <!--<th>Thumbnail</th>-->

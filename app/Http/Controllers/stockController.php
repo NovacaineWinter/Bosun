@@ -68,6 +68,7 @@ class stockController extends Controller
 		return view('inside.stock.stockcheck')->with('request',$request);
 	}
 
+	/*
 	public function repriceBookedOutStock(){
 		$bookedOutStock = bookedOutPart::all();
 		foreach($bookedOutStock as $bookedOutPart){
@@ -75,7 +76,10 @@ class stockController extends Controller
 			$bookedOutPart->save();
 		}
 	}
+	*/
 
+
+	/*
 
 	public function bugfix(){
 		$stockCodes = stockCode::all();
@@ -109,6 +113,7 @@ class stockController extends Controller
 			}
 		}
 	}
+	*/
 
 	public function stockValue(){
 		$stock = stock::all();
@@ -396,12 +401,14 @@ class stockController extends Controller
 
 						$alreadyExists = bookedOutPart::where('project_id','=',$request->get('projectID'))->where('stock_id','=',$request->get('itemID'))->first();
 						
-						if(!empty($alreadyExists)){
+						/*if(!empty($alreadyExists)){
 							$currentQty = $alreadyExists->qty;
 							$alreadyExists->qty = $currentQty + $toRemove;
 							$alreadyExists->save();
 
-						}else{
+							//this has been commented out to ensure that stock items don't clump together - we dont need it to do this
+
+						}else{*/
 
 							$bookedOutItem= new bookedOutPart;
 							$bookedOutItem->stock_id=$request->get('itemID');
@@ -415,8 +422,8 @@ class stockController extends Controller
 							
 							$bookedOutItem->exVatCost =$itemCode->netCost;
 							$bookedOutItem->save();
-						}
-
+						/* }  */
+ 
 						return view('inside.stock.ajax.item_detail')->with('item',$stockItem);
 
 					}else{
