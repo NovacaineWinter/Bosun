@@ -64,7 +64,7 @@ Route::get('stock/value',['uses'=>'stockController@stockValue']);
 
 Route::get('stock/stockcheck',['uses'=>'stockController@stockCheck']);
 Route::get('stock/check',['uses'=>'stockController@stockCheckHome']);
-Route::get('stock/update',['uses'=>'stockController@updateForStockCheck']);
+Route::get('stock/check/update',['uses'=>'stockController@updateForStockCheck']);
 
 
 

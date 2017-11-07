@@ -59,7 +59,7 @@
 	
 	function stockTakeItem(id){
 		$.ajax({
-		    url: "{{url('/stock/update')}}",
+		    url: "{{url('/stock/check/update')}}",
 		    method: 'GET',
 		    data: {
 		        item: id,
