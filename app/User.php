@@ -44,15 +44,15 @@ class User extends Authenticatable
 
         if($this->on_lunch == 1){
 
-            echo 'userOnLunch';
+            return 'userOnLunch';
 
         }elseif($this->logged_in == 1){
 
-            echo 'userWorking';
+            return 'userWorking';
 
         }else{
 
-            echo 'userLoggedOff';
+            return 'userLoggedOff';
 
         }       
     }
