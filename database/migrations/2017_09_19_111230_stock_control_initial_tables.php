@@ -18,8 +18,8 @@ class StockControlInitialTables extends Migration
         Schema::create('stock', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('category_id');
-            $table->integer('subcategory_id');
+            $table->integer('category_id')->default(1);
+            $table->integer('subcategory_id')->default(1);
             $table->string('description',5000)->nullable();
             $table->integer('qtyInStock');
             $table->integer('reorderQty')->nullable();
