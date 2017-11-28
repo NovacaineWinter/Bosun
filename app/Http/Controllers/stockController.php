@@ -49,12 +49,8 @@ class stockController extends Controller
 		$toSendOn['projects']=array();
 
 		foreach($projects as $project){
-			$projectTotalValue=0;
-			foreach($project->bookedOutParts as $part){
-				$toAdd = $part->qty * $part->exVatCost;
-				$projectTotalValue = $projectTotalValue + $toAdd; 
-			}
-			$toSendOn['projects'][]=array('project'=>$project,'wip'=>$projectTotalValue);
+			
+			$toSendOn['projects'][]=array('project'=>$project,'wip'=>$project->totalPartsCost());
 		}
 		
 		return view('inside.stock.value_summary')->with('data',$toSendOn);

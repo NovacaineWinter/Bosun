@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\day_sumamry;
 use App\work_done;
-use App\day_summamry;
+use App\day_summary;
 
 class User extends Authenticatable
 {
@@ -121,6 +121,8 @@ class User extends Authenticatable
                 $w->project_id = $previousTask->project->id;
 
                 $w->time_worked=($now-($this->time_change));
+
+                $w->pay_earned = $w->time_worked * ($this->rate / 3600);
 
                 $w->time_started=$this->time_change;
 
@@ -272,16 +274,71 @@ class User extends Authenticatable
     }
 
     public function hoursWorkedThisMonth(){
-        return '158Hrs 23 mins';
+        $totalSeconds = $this->getHoursWorkedThisMonth();
+        $hours = floor($totalSeconds/3600);
+        $mins = floor(($totalSeconds%3600)/60);        
+        echo $hours.'hrs '.$mins.' mins';
+    }
+
+    public function getHoursWorkedThisMonth(){
+        $unattributedTime = day_summary::where('user_id','=',$this->id)->where('is_timesheeted','=',0)->get();
+        $totalTime=0;
+        foreach($unattributedTime as $timeToSum){
+            $totalTime = $totalTime + $timeToSum->time_worked;
+        }
+        return $totalTime;
     }
 
     public function hoursOvertimeThisMonth(){
-        return '0hrs 48 mins';
+        $totalSeconds = $this->getHoursOvertimeThisMonth();
+        $hours = floor($totalSeconds/3600);
+        $mins = floor(($totalSeconds%3600)/60);        
+        echo $hours.'hrs '.$mins.' mins';
     }
+
+    public function getHoursOvertimeThisMonth(){
+        $unattributedTime = day_summary::where('user_id','=',$this->id)->where('is_timesheeted','=',0)->get();
+        $totalTime=0;
+        foreach($unattributedTime as $timeToSum){
+            $totalTime = $totalTime + $timeToSum->ot_worked;
+        }
+        return $totalTime;
+    }
+
+
+
+    public function getMoneyEarnedThisMonth(){
+        $unattributedTime = day_summary::where('user_id','=',$this->id)->where('is_timesheeted','=',0)->get();
+        $wages = 0;
+        $overtime_suppliment = 0;
+
+        foreach($unattributedTime as $time){
+
+            //calculate regular hours
+            if(count($time->work_done)>0){
+                foreach($time->work_done as $wd){
+                    $wages = $wages + ($wd->time_worked * $wd->base_pay_rate);
+                }
+            }            
+            
+
+            //find overtime and calculate if needed
+            if(count($time->overtime_recorded)>0){
+                foreach($time->overtime as $ot){
+                    $overtime_suppliment = $overtime_suppliment  + ($ot->time * $ot->suppliment_multiplier * $ot->base_pay_rate );
+                }
+            }
+
+            $earnings = $wages + $overtime_suppliment;
+
+            return $earnings;
+
+        }
+    }
+
 
     public function moneyEarnedThisMonth(){
-        return '&pound;2074.54';
+        echo '&pound;'.round($this->getMoneyEarnedThisMonth(),2);
     }
-
 
 }

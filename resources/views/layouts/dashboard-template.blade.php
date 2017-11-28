@@ -50,24 +50,6 @@
                 </div>
             
 
-                <div method="workers" class="panel panel-default ajax-clickable">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a>Workers</a>
-                        </h4>
-                    </div>
-                </div>
-
-
-                <div method="projects" class="panel panel-default ajax-clickable">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Projects</a>
-                        </h4>
-                    </div>
-                </div>
-
-
 
                 <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
                     <div class="panel-heading">
@@ -78,8 +60,9 @@
                     <div id="collapse1" class="panel-collapse collapse">
                         <ul class="list-group">
                             <li method="worker_detail" class="ajax-clickable list-group-item">New Member of Staff</li>
-                            <li method="worker_detail" class="ajax-clickable list-group-item">New Shift</li>
+                            <li method="worker_detail" class="ajax-clickable list-group-item">New Permission Level</li>
                             <li method="worker_detail" class="ajax-clickable list-group-item">New Project</li>
+                            <li method="worker_detail" class="ajax-clickable list-group-item">New Skill</li>
                         </ul>
                     </div>
                 </div>
@@ -93,9 +76,9 @@
                     </div>
                     <div id="collapse3" class="panel-collapse collapse">
                         <ul class="list-group">
-                            <li method="worker_detail" class="ajax-clickable list-group-item">User Permissions</li>
+                            <li method="worker_detail" class="ajax-clickable list-group-item">Edit Workers</li>                            
                             <li method="worker_detail" class="ajax-clickable list-group-item">Bosun Configuration</li>
-                            <li method="worker_detail" class="ajax-clickable list-group-item">Three</li>
+                            
                         </ul>
                     </div>
                 </div>

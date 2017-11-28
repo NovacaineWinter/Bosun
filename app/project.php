@@ -20,27 +20,159 @@ class project extends Model
  	}
 
 
+
+
+
+/*
+*	The functions for "This Month"
+*/
  	public function costOfStockBookedOutThisMonth(){
- 		return '2235.43';
+ 		return '&pound'.round($this->getCostOfStockBookedOutThisMonth(),2);
+ 	}
+
+ 	public function getCostOfStockBookedOutThisMonth(){
+
+		$projectTotalValue=0;
+		
+		$beginningOfMonth = sprintf('%d-%d-01 00:00:00',date('Y'),date('m'));
+
+		$parts = $this->bookedOutParts->where('created_at','>',$beginningOfMonth);
+
+		foreach($parts as $part){
+
+			$toAdd = $part->qty * $part->exVatCost;
+			$projectTotalValue = $projectTotalValue + $toAdd; 
+		}
+	
+		return $projectTotalValue;
+ 	}
+
+
+
+ 	public function getHourSpendThisMonth(){
+ 		$project_id = $this->id;
+ 		$workDone = work_done::where('project_id', '=', $project_id)->whereHas('daySummary', function ($query) {
+    				$query->where('is_timesheeted','=',0);	
+				})->get();
+
+		$time = 0;
+ 		if(count($workDone)>0){ 			
+ 			foreach($workDone as $workItem){
+ 				$time = $time + $workItem->time_worked;
+ 			}
+ 		}
+ 		return ($time);
  	}
 
  	public function hourSpendThisMonth(){
- 		return '345 Hrs 08 Mins';
+ 		$time = $this->getHourSpendThisMonth();
+
+        $hours = floor($time/3600);
+        $mins = floor(($time%3600)/60);        
+        return $hours.'hrs '.$mins.' mins';
+
  	}
+
 
  	public function labourCostThisMonth(){
- 		return '4105.53';
+ 		return '&pound'.round($this->labourCostThisMonth(),2);
+ 	} 
+
+ 	public function getLabourCostsThisMonth(){
+ 		$project_id = $this->id;
+ 		$workDone = work_done::where('project_id', '=', $project_id)->whereHas('daySummary', function ($query) {
+    				$query->where('is_timesheeted','=',0);	
+				})->get();
+
+		$pay = 0;
+ 		if(count($workDone)>0){ 			
+ 			foreach($workDone as $workItem){
+ 				$pay = $pay + $workItem->pay_earned;
+ 			}
+ 		}
+ 		return ($pay);
  	}
+
+
+/*
+*	The functions for info in total
+*/
 
  	public function totalCostOfStockBookedOut(){
- 		return 'totalCostOfStock';
+ 		return '&pound'.round($this->getTotalCostOfStockBookedOut(),2);
  	}
+
+ 	public function getTotalCostOfStockBookedOut(){
+
+		$projectTotalValue=0;
+
+		$parts = $this->bookedOutParts;
+
+		foreach($parts as $part){
+
+			$toAdd = $part->qty * $part->exVatCost;
+			$projectTotalValue = $projectTotalValue + $toAdd; 
+		}
+	
+		return $projectTotalValue;
+ 	}
+
+
 
  	public function totalLabourCost(){
- 		return 'totalLabourCost';
+ 		return '&pound'.round($this->getTotalLabourCost(),2);
  	}
 
- 	public function totalHourSpend(){
- 		return 'totalHourSpend';
+ 	public function getTotalLabourCost(){
+
+ 		$project_id = $this->id;
+ 		$workDone = work_done::where('project_id', '=', $project_id)->get();
+
+		$pay = 0;
+ 		if(count($workDone)>0){ 			
+ 			foreach($workDone as $workItem){
+ 				$pay = $pay + $workItem->pay_earned;
+ 			}
+ 		}
+ 		return ($pay);
  	}
+
+
+
+ 	public function totalHourSpend(){
+
+ 		$time = $this->getTotalHourSpend();
+
+        $hours = floor($time/3600);
+        $mins = floor(($time%3600)/60);        
+        return $hours.'hrs '.$mins.' mins';
+ 	}
+
+ 	public function getTotalHourSpend(){
+ 		$project_id = $this->id;
+ 		$workDone = work_done::where('project_id', '=', $project_id)->get();
+
+		$time = 0;
+ 		if(count($workDone)>0){ 			
+ 			foreach($workDone as $workItem){
+ 				$time = $time + $workItem->time_worked;
+ 			}
+ 		}
+ 		return ($time);
+ 	}
+
+
+
+
+
+	public function totalPartsCost(){
+		$projectTotalValue=0;
+
+		foreach($this->bookedOutParts as $part){
+			$toAdd = $part->qty * $part->exVatCost;
+			$projectTotalValue = $projectTotalValue + $toAdd; 
+		}
+		
+		return $projectTotalValue;
+	}	
 }

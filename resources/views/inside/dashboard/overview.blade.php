@@ -56,6 +56,7 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->where('is_finished','=
                     @endif
                 </tbody>
             </table>
+            <div method="project_detail" class="btn btn-border ajax-clickable">+ Add Project</div>
 
             <!--
             <div class="row">

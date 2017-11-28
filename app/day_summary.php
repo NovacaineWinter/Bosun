@@ -13,6 +13,9 @@ class day_summary extends Model
  	}
 
 
+ 	public function overtime(){
+ 		return $this->hasMany('App\overtime','day_summary_id');
+ 	}
 
 //belongs to payslip
 

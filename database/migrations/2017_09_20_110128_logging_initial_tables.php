@@ -35,6 +35,7 @@ class LoggingInitialTables extends Migration
             $a->boolean('is_overtime')->default(false);
             $a->integer('payslip_id')->nullable();
             $a->boolean('is_locked')->default(0);
+            $a->decimal('pay_earned',10,8);
             $a->timestamps();
         });
 
@@ -139,7 +140,7 @@ class LoggingInitialTables extends Migration
         Schema::table('projects', function (Blueprint $tbl) {
             $tbl->boolean('can_log_hours')->default(1);
             $tbl->integer('default_task')->nullable();  //needs to be nullable as the default task is created after the project is 
-            $tbl->text('description')->default(' ');            
+            $tbl->text('description')->nullable();            
         });
 
 
@@ -192,8 +193,8 @@ class LoggingInitialTables extends Migration
             $table->string('ni_num',15)->nullable();
             $table->boolean('contractor')->nullable();
             $table->integer('employment_start_timestamp')->nullable();
-            $table->boolean('student_loan')->nullable();
-            $table->boolean('finish_studies_before_current_tax_year')->nullable(); 
+
+
             $table->string('contact_number',15)->nullable(); 
             $table->string('company_no',15)->nullable();
             $table->string('vat_number',15)->nullable();
@@ -222,6 +223,14 @@ class LoggingInitialTables extends Migration
         });
 
 
+        schema::create('overtime',function (Blueprint $ott) {
+            $ott->increments('id');
+            $ott->integer('day_summary_id');
+            $ott->decimal('base_pay_rate',10,8);
+            $ott->integer('time');
+            $ott->decimal('suppliment_multiplier',10,8);            
+            $ott->timestamps();
+        });
 
     }
 

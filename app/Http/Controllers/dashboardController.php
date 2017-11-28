@@ -109,6 +109,52 @@ class DashboardController extends Controller
 	 			case 'workersDashboard':
 	 				return view('inside.dashboard.ajax.workers');
 	 				break;
+
+
+	 			case 'newMemberOfStaff':
+	 			$userinfo = $request->get('data');
+	 				if(!empty($userinfo)){
+		 				$u = new App\User;
+	 					$u->fname 			=  $request->get('userdata')['fname'];
+	 					$u->lname 			=  $request->get('userdata')['lname'];
+	 					$u->dob_day 		=  $request->get('userdata')['dob_day'];
+	 					$u->dob_month 		=  $request->get('userdata')['dob_month'];
+	 					$u->dob_year 		=  $request->get('userdata')['dob_year'];
+	 					$u->addr_line_one 	=  $request->get('userdata')['addr_line_one'];
+	 					$u->addr_line_two 	=  $request->get('userdata')['addr_line_two'];
+	 					$u->postcode 		=  $request->get('userdata')['postcode'];
+	 					$u->contact_number 	=  $request->get('userdata')['contact_number'];
+	 					$u->email 			=  $request->get('userdata')['email'];
+	 					$u->ice_fullname	=  $request->get('userdata')['ice_fullname'];
+	 					$u->ice_contact_no 	=  $request->get('userdata')['ice_contact_no'];
+	 					$u->female 			=  $request->get('userdata')['female'];
+	 					$u->days_leave 		=  $request->get('userdata')['days_leave'];
+	 					$u->days_per_week 	=  $request->get('userdata')['days_per_week'];
+	 					$u->hours_per_week 	=  $request->get('userdata')['hours_per_week'];
+	 					$u->rate 			=  $request->get('userdata')['hourlyrateid'];
+	 					$u->shift_type_id 	=  $request->get('userdata')['shift_select'];
+	 					$u->contractor 		=  $request->get('userdata')['contractor'];
+	 					$u->vat_number 		=  $request->get('userdata')['vat_number'];
+	 					$u->company_no 		=  $request->get('userdata')['company_no'];
+
+	 					$u->employment_start_timestamp 	=  strtotime($request->get('userdata')['employment_start_date']);
+
+	 					$u->save();
+
+	 					$rfid = new App\userBadge;
+	 					$rfid->user_id = $u->id;
+	 					$rfid->badgeID = $request->get('userdata')['rfid_field'];
+	 					$rfid->save();
+	 					
+	 					return 'All sucessfull';
+	 					//return view('inside.dashboard.ajax.worker_creation_sucessfull')->with('user',$u);
+
+	 				}else{
+	 					return 'Not found the data attachement';
+	 					//return view('inside.dashboard.ajax.staff_detail',compact('new_starter'));
+	 				}
+
+	 				break;
 	 			default:
 	 				return view('inside.dashboard.overview');
 	 				break;
