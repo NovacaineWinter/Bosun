@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\userBadge;
 use Cookie;
 use App\work_done;
 use App\day_summary;
@@ -86,15 +87,18 @@ class LoggingController extends Controller
     			case 'badgeSubmitted': 
 
                     //$worker= User::where('badgeID','=',$request->get('badgeID'))->first();
-                    $badge = App\userBadge::where('badgeID','=',$request->get('badgeID'))->first();
-                    $worker = $badge->user;
+                    $badge = userBadge::where('badgeID','=',$request->get('badgeID'))->first();
+        
 
-                    if(empty($worker)){
-                        App::abort(404,'ID not recognised');
+                    if(empty($badge->user)){
+                        return '<h1>ID Not recognised</h1>';
+                    }else{
+
+                        $request->flashOnly('badgeID');
+
+                        return view('outside.logging.ajax.user_home',['user'=>$badge->user]);
                     }
-                    $request->flashOnly('badgeID');
 
-    				return view('outside.logging.ajax.user_home',['worker'=>$worker]);
 
     				break;
 

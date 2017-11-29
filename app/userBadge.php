@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class staffBadge extends Model
+class userBadge extends Model
 {
 
 	protected $table = 'userBadges';
