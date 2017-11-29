@@ -1,8 +1,11 @@
 <?php
 use App\project;
 use App\config;
+use App\skill;
 
 $config= new config;
+
+$skills = App\skill::where('bosun_defined','=',0)->get();
 
 if($request->has('target')){
 	$project = project::find($request->get('target'));	
@@ -51,8 +54,10 @@ if($request->has('target')){
 								<tr  style="border:none">
 									<th style="border:none">
 										Skill:
-										<select style="padding:5px;">
-											<option value="0">Default</option>
+										<select style="padding:5px;">											
+											@foreach($skills as $skill)
+												<option value="{{{ $skill->id }}}" @if($task->skill_id == $skill->id) selected @endif>{{{ $skill->name }}}</option>
+											@endforeach
 										</select>
 									</th>
 									<th class="ajaxcheckboxholder" style="border:none">
@@ -72,14 +77,14 @@ if($request->has('target')){
 
 						</div>
 						<div class="col-lg-6">
-							<div class="col-sm-8">
-								<div class="col-sm-4">Labour</div>
-								<div class="col-sm-4">124 Hrs</div>
-								<div class="col-sm-4">&pound; 1424</div>
+							<div class="col-sm-8" style="border:1px solid #808080;border-radius:5px;">
+								<div class="col-sm-3">Labour</div>
+								<div class="col-sm-6">{{{  $task->totalHourSpend()  }}}</div>
+								<div class="col-sm-3">&pound; {{{  $task->totalLabourCost()  }}}</div>
 							</div>
 							<div class="col-sm-4">
 								<div class="col-sm-4">Parts</div>
-								<div class="col-sm-8">&pound; 1242</div>
+								<div class="col-sm-8">&pound; 0</div>
 							</div>
 						</div>
 					</div>

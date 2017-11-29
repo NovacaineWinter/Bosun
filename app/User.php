@@ -126,6 +126,8 @@ class User extends Authenticatable
 
                 $w->time_started=$this->time_change;
 
+                $w->base_hourly_rate = $this->rate;
+
                 $w->time_finished=$now;
 
                 $w->day_summary_id=$this->current_day_summary;
@@ -222,6 +224,8 @@ class User extends Authenticatable
 
                         $w->time_worked=($now-($this->time_change));
 
+                        $w->pay_earned = $w->time_worked * ($this->rate / 3600);                    
+
                         $w->time_started=$this->time_change;
 
                         $w->time_finished=$now;
@@ -229,6 +233,8 @@ class User extends Authenticatable
                         $w->day_summary_id=$day_summary->id;
 
                         $w->previous_id=$this->last_work_leger_id;
+
+                        $w->base_hourly_rate = $this->rate;
 
                         $w->first=0;
 

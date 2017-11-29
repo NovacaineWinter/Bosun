@@ -64,7 +64,7 @@ $workers = User::where('can_log_hours','=',1)->where('is_active','=',1)->get();
             </table>          
         </div>
     </div>
-
+<?php /*
 <h1>Projects</h1>
 <div class="col-sm-12 dashboard-table-holder">
         <div class="col-xs-10 col-xs-offset-1">
@@ -78,10 +78,11 @@ $workers = User::where('can_log_hours','=',1)->where('is_active','=',1)->get();
                 </thead>
                 <tbody>
 
-                    @if($config->boolean('has_logging'))
+                  
+                   @if($config->boolean('has_logging'))
                         @if($workers->count()>0)   
-                            
-                            @foreach($workers as $worker)
+                            $projects=$workers->groupBy('task_id');
+                            @foreach($projects as $project)
                             
                             <tr class="{{{ $worker->cssStatus() }}}">
                                 
@@ -112,3 +113,4 @@ $workers = User::where('can_log_hours','=',1)->where('is_active','=',1)->get();
             </table>          
         </div>
     </div>    
+*/?>

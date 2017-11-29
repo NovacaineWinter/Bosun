@@ -100,12 +100,16 @@ $data=$workDone->onDayByUser($worker->id,date('Y'),date('W'),date('N'));
 	</div>
 @endif
 
-
-<script>
-	
-//setTimeout(window.location.replace(" {{{url('/logging')}}}"),5000);
-</script>
-
+@if($statusInfo['loggedIn']==0)
+	<!-- Dont set a refesh as use may need to review their work done -->
+	<script>		
+		//setTimeout(window.location.replace(" {{{url('/logging')}}}"),1500);
+	</script>
+@else
+	<script>		
+		setTimeout( function(){window.location.replace(" {{{url('/logging')}}}")},2000);
+	</script>
+@endif
 
 
 

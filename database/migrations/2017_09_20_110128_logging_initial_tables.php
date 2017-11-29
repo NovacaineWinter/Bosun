@@ -51,6 +51,7 @@ class LoggingInitialTables extends Migration
             $t->increments('id');
             $t->integer('user_id');
             $t->integer('skill_id');
+            $t->boolean('bosun_defined')->default(0);
             $t->timestamps();
 
         });

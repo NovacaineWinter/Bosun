@@ -1,3 +1,10 @@
+<?php
+
+use App\config;
+$config = new config;
+
+?>
+
 
 <?php if($data->isNotEmpty()){
 
@@ -17,7 +24,7 @@
 			$timestampFinish = $entry->time_finished;
 		}
 
-		if($entry->task_id != SETUPPARAMS['lunchTaskID']){
+		if($entry->task_id != $config->integer('lunchTaskID')){
 			$totalTimeWorked = $totalTimeWorked + $entry->time_worked;
 		}else{
 			$totalTimeLunch = $totalTimeLunch + $entry->time_worked;

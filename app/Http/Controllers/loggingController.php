@@ -50,8 +50,11 @@ class LoggingController extends Controller
                         $statusInfo['taskID']= $request->get('taskID');
                         $statusInfo['worker']= $worker;
 
-                        $worker->change_activity($statusInfo['loggedIn'],$statusInfo['onLunch'],$statusInfo['taskID']);
 
+                        if($worker->on_lunch != $statusInfo['onLunch'] || $worker->task_id != $statusInfo['taskID'] || $worker->logged_in != $statusInfo['loggedIn']){
+                            $worker->change_activity($statusInfo['loggedIn'],$statusInfo['onLunch'],$statusInfo['taskID']);  
+                        }
+                        
                         return view('outside.logging.ajax.logging_complete')->with('statusInfo',$statusInfo);
 
 
@@ -82,7 +85,9 @@ class LoggingController extends Controller
 
     			case 'badgeSubmitted': 
 
-                    $worker= User::where('badgeID','=',$request->get('badgeID'))->first();
+                    //$worker= User::where('badgeID','=',$request->get('badgeID'))->first();
+                    $badge = App\userBadge::where('badgeID','=',$request->get('badgeID'))->first();
+                    $worker = $badge->user;
 
                     if(empty($worker)){
                         App::abort(404,'ID not recognised');

@@ -27,7 +27,7 @@ class project extends Model
 *	The functions for "This Month"
 */
  	public function costOfStockBookedOutThisMonth(){
- 		return '&pound'.round($this->getCostOfStockBookedOutThisMonth(),2);
+ 		return round($this->getCostOfStockBookedOutThisMonth(),2);
  	}
 
  	public function getCostOfStockBookedOutThisMonth(){
@@ -56,6 +56,7 @@ class project extends Model
 				})->get();
 
 		$time = 0;
+
  		if(count($workDone)>0){ 			
  			foreach($workDone as $workItem){
  				$time = $time + $workItem->time_worked;
@@ -75,7 +76,8 @@ class project extends Model
 
 
  	public function labourCostThisMonth(){
- 		return '&pound'.round($this->labourCostThisMonth(),2);
+ 		//return '&pound'.$this->labourCostThisMonth();
+ 		return 0;
  	} 
 
  	public function getLabourCostsThisMonth(){
@@ -99,7 +101,7 @@ class project extends Model
 */
 
  	public function totalCostOfStockBookedOut(){
- 		return '&pound'.round($this->getTotalCostOfStockBookedOut(),2);
+ 		return round($this->getTotalCostOfStockBookedOut(),2);
  	}
 
  	public function getTotalCostOfStockBookedOut(){
@@ -120,7 +122,7 @@ class project extends Model
 
 
  	public function totalLabourCost(){
- 		return '&pound'.round($this->getTotalLabourCost(),2);
+ 		return round($this->getTotalLabourCost(),2);
  	}
 
  	public function getTotalLabourCost(){

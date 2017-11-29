@@ -70,7 +70,8 @@ class InitialDatabaseRecords extends Migration
         $lunchSkillId = DB::table('skills')->insertGetId(
             array(
                 'name'=>'Lunch',
-                'description'=>'Non-productive time - to be logged as break',                    
+                'description'=>'Non-productive time - to be logged as break',      
+                'bosun_defined'=>1,              
                 )
         );    
 
@@ -134,7 +135,8 @@ class InitialDatabaseRecords extends Migration
         $genericWorkSkillId = DB::table('skills')->insertGetId(
             array(
                 'name'=>'Generic Work',
-                'description'=>'Generic work on unspecified project and unspecified skill',                    
+                'description'=>'Generic work on unspecified project and unspecified skill',  
+                'bosun_defined'=>1,                  
                 )
         );
 
