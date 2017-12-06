@@ -18,16 +18,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','email', 'password','role_id','badgeID','fname','lname','rate','status','time_change','project_id ','task_id',
+        'name','email', 'password'
+    ];
 
-        /**/'start_hour','start_min','finish_hour','finish_min',/**/
+
+
+/*
+,'role_id','badgeID','fname','lname','rate','status','time_change','project_id ','task_id',
+
+        'start_hour','start_min','finish_hour','finish_min',
 
         'is_active','female','dob_day','dob_month','dob_year','addr_line_one','addr_line_two','addr_line_three','postcode',
         'ni_num','contractor','employment_start_timestamp','student_loan','finish_studies_before_current_tax_year','contact_number',
         'company_no','vat_number','ice_fullname','ice_contact_no','remuneration_scheme_id','holiday_entitlement','holiday_taken','leave_accrual_timestamp',
         'shift_type_id','bank_overtime','notes',
+*/
 
-    ];
+
 
     /**
      * The attributes that should be hidden for arrays.

@@ -185,7 +185,7 @@ $roles=App\role::all();
             <div class="row">
 
                 <div class="col-xs-4 textbox-holder-top-left" style="padding-left:0px;">  
-                    <input type="number" min="1" max="7" id="holiday_entitlement" class="form-control top-left-textbox required" placeholder="Annual Leave" id="days_leave" required>
+                    <input type="number" min="1" max="7" id="holiday_entitlement" class="form-control top-left-textbox required" placeholder="Annual Leave" required>
                 </div>
                 <div class="col-xs-4 textbox-holder-middle">
                     <input type="number" id="days_per_week" class="form-control required middle-textbox" style="border-radius: 0px;" placeholder="Days per Week" min="0" max="7" requried>
@@ -200,7 +200,7 @@ $roles=App\role::all();
 
                 <div class="col-xs-6 textbox-holder-bottom-left input-group">
                     <span class="input-group-addon leftspan">&pound</span>
-                    <input type="number" id="hourlyrateid" id="hourly_rate" onchange="calculateEquiv('hourly');;" class="form-control bottom-left-textbox required" placeholder="Hourly Rate" step="0.01" required>
+                    <input type="number" id="hourlyrateid" onchange="calculateEquiv('hourly');;" class="form-control bottom-left-textbox required" placeholder="Hourly Rate" step="0.01" required>
                     <span class="input-group-addon middlespan">Hourly</span>
                 </div>
                 <div class="col-xs-6 textbox-holder-bottom-right input-group">
@@ -293,13 +293,36 @@ $('#rfid_field').attr('disabled', true);
         var status = formCheck();
 
         if(status['status'] == true){
-            //send ajax request
+            //send ajax request           
             $.ajax({
                     url: "{{url('/ajax')}}",
                     method: 'GET',
                     data: {
-                        ajaxmethod: 'newMemberOfStaff',
                         userdata: status['data'],
+                        fname: status['data']['fname'],
+                        lname: status['data']['lname'],
+                        dob_day: status['data']['dob_day'],
+                        dob_month: status['data']['dob_month'],
+                        dob_year: status['data']['dob_year'],
+                        addr_line_one: status['data']['addr_line_one'],
+                        addr_line_two: status['data']['addr_line_two'],
+                        postcode: status['data']['postcode'],
+                        contact_number: status['data']['contact_number'],
+                        ice_fullname: status['data']['ice_fullname'],
+                        ice_contact_no: status['data']['ice_contact_no'],
+                        female: status['data']['female'],
+                        days_leave: status['data']['days_leave'],
+                        days_per_week: status['data']['days_per_week'],
+                        hours_per_week: status['data']['hours_per_week'],
+                        hourlyrateid: status['data']['hourlyrateid'],
+                        shift_select: status['data']['shift_select'],
+                        contractor: status['data']['contractor'],
+                        vat_number: status['data']['vat_number'],
+                        company_no: status['data']['company_no'],
+                        employment_start_date: status['data']['employment_start_date'],
+                        rfid_field: status['data']['rfid_field'],
+                        ajaxmethod: 'newMemberOfStaff',
+                        
                     },
                     success: function(response) {
                         $('#dashboard-ajax-container').html(response);                        
@@ -432,8 +455,8 @@ $('#rfid_field').attr('disabled', true);
             info['message'] = 'Days Worked per Week Not filled Out';
         }
         /* Annual Leave Allowance */
-        if($('#days_leave').val()!=''){
-            data['days_leave']= $('#days_leave').val();
+        if($('#holiday_entitlement').val()!=''){
+            data['days_leave']= $('#holiday_entitlement').val();
         }else{
             info['status'] = false;
             info['message'] = 'Annual Leave Allowance Not filled Out';

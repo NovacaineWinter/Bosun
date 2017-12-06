@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Hash;
 
 use App\project;
 use App\tasks;
+use App\User;
+use App\userBadge;
 
 class DashboardController extends Controller
 {
@@ -112,47 +118,83 @@ class DashboardController extends Controller
 
 
 	 			case 'newMemberOfStaff':
-	 			$userinfo = $request->get('data');
-	 				if(!empty($userinfo)){
-		 				$u = new App\User;
-	 					$u->fname 			=  $request->get('userdata')['fname'];
-	 					$u->lname 			=  $request->get('userdata')['lname'];
-	 					$u->dob_day 		=  $request->get('userdata')['dob_day'];
-	 					$u->dob_month 		=  $request->get('userdata')['dob_month'];
-	 					$u->dob_year 		=  $request->get('userdata')['dob_year'];
-	 					$u->addr_line_one 	=  $request->get('userdata')['addr_line_one'];
-	 					$u->addr_line_two 	=  $request->get('userdata')['addr_line_two'];
-	 					$u->postcode 		=  $request->get('userdata')['postcode'];
-	 					$u->contact_number 	=  $request->get('userdata')['contact_number'];
-	 					$u->email 			=  $request->get('userdata')['email'];
-	 					$u->ice_fullname	=  $request->get('userdata')['ice_fullname'];
-	 					$u->ice_contact_no 	=  $request->get('userdata')['ice_contact_no'];
-	 					$u->female 			=  $request->get('userdata')['female'];
-	 					$u->days_leave 		=  $request->get('userdata')['days_leave'];
-	 					$u->days_per_week 	=  $request->get('userdata')['days_per_week'];
-	 					$u->hours_per_week 	=  $request->get('userdata')['hours_per_week'];
-	 					$u->rate 			=  $request->get('userdata')['hourlyrateid'];
-	 					$u->shift_type_id 	=  $request->get('userdata')['shift_select'];
-	 					$u->contractor 		=  $request->get('userdata')['contractor'];
-	 					$u->vat_number 		=  $request->get('userdata')['vat_number'];
-	 					$u->company_no 		=  $request->get('userdata')['company_no'];
 
-	 					$u->employment_start_timestamp 	=  strtotime($request->get('userdata')['employment_start_date']);
 
-	 					$u->save();
+	 				$u = new User;
 
-	 					$rfid = new App\userBadge;
-	 					$rfid->user_id = $u->id;
-	 					$rfid->badgeID = $request->get('userdata')['rfid_field'];
-	 					$rfid->save();
-	 					
-	 					return 'All sucessfull';
-	 					//return view('inside.dashboard.ajax.worker_creation_sucessfull')->with('user',$u);
+	 				$u->name 			=  $request->get('fname').' '.$request->get('lname');
+	 				$u->email 			=  $request->get('fname').$request->get('lname').'@nottinghamboatco.com';
+	 				$u->password 		=  Hash::make('EPIC1');
+ 					$u->fname 			=  $request->get('fname');
+ 					$u->lname 			=  $request->get('lname'); 					
+ 					$u->dob_day 		=  $request->get('dob_day');
+ 					$u->dob_month 		=  $request->get('dob_month');
+ 					$u->dob_year 		=  $request->get('dob_year');
+ 					$u->addr_line_one 	=  $request->get('addr_line_one');
+ 					$u->addr_line_two 	=  $request->get('addr_line_two');
+ 					$u->postcode 		=  $request->get('postcode');
+ 					$u->contact_number 	=  $request->get('contact_number'); 					
+ 					$u->ice_fullname	=  $request->get('ice_fullname');
+ 					$u->ice_contact_no 	=  $request->get('ice_contact_no');
+ 					$u->female 			=  $request->get('female');
+ 					$u->days_leave 		=  $request->get('days_leave');
+ 					$u->days_per_week 	=  $request->get('days_per_week');
+ 					$u->hours_per_week 	=  $request->get('hours_per_week');
+ 					$u->rate 			=  $request->get('hourlyrateid');
+ 					$u->shift_type_id 	=  $request->get('shift_select');
+ 					$u->contractor 		=  $request->get('contractor');
+ 					$u->vat_number 		=  $request->get('vat_number');
+ 					$u->company_no 		=  $request->get('company_no');
+ 					$u->days_leave 		=  $request->get('days_leave');
+ 					$u->days_per_week 	=  $request->get('days_per_week');
+ 					$u->hours_per_week 	=  $request->get('hours_per_week'); 
+ 					$u->is_active		=  1;
+ 					$u->can_log_hours	= 1;					
 
-	 				}else{
-	 					return 'Not found the data attachement';
-	 					//return view('inside.dashboard.ajax.staff_detail',compact('new_starter'));
-	 				}
+ 					$u->employment_start_timestamp 	=  strtotime($request->get('employment_start_date'));
+
+ 					$u->save();
+
+ 					/*
+					$u = User::create([
+	 				'email' 			=>  $request->get('fname').$request->get('lname').'@nottinghamboatco.com',
+	 				'password' 			=>  Hash::make('EPIC1'),
+	 				'name'				=>  $request->get('fname').' '.$request->get('lname'),
+ 					'fname' 			=>  $request->get('fname'),
+ 					'lname' 			=>  $request->get('lname'), 					
+ 					'dob_day' 			=>  $request->get('dob_day'),
+ 					'dob_month' 		=>  $request->get('dob_month'),
+ 					'dob_year' 			=>  $request->get('dob_year'),
+ 					'addr_line_one' 	=>  $request->get('addr_line_one'),
+ 					'addr_line_two' 	=>  $request->get('addr_line_two'),
+ 					'postcode' 			=>  $request->get('postcode'),
+ 					'contact_number' 	=>  $request->get('contact_number'), 					
+ 					'ice_fullname'		=>  $request->get('ice_fullname'),
+ 					'ice_contact_no' 	=>  $request->get('ice_contact_no'),
+ 					'female' 			=>  $request->get('female'),
+ 					'days_leave' 		=>  $request->get('days_leave'),
+ 					'days_per_week' 	=>  $request->get('days_per_week'),
+ 					'hours_per_week' 	=>  $request->get('hours_per_week'),
+ 					'rate' 				=>  $request->get('hourlyrateid'),
+ 					'shift_type_id' 	=>  $request->get('shift_select'),
+ 					'contractor' 		=>  $request->get('contractor'),
+ 					'vat_number' 		=>  $request->get('vat_number'),
+ 					'company_no' 		=>  $request->get('company_no'),
+ 					'can_log_hours'		=>  1,
+
+ 					'employment_start_timestamp' 	=>  strtotime($request->get('employment_start_date')),
+ 					]);
+
+ 						*/				
+
+ 					$rfid = new userBadge;
+ 					$rfid->user_id = $u->id;
+ 					$rfid->badgeID = $request->get('rfid_field');
+ 					$rfid->save();
+ 	
+ 					return 'All sucessfull';
+ 					//return view('inside.dashboard.ajax.worker_creation_sucessfull')->with('user',$u);
+
 
 	 				break;
 	 			default:

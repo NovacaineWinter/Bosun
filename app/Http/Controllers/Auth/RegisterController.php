@@ -66,6 +66,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'can_log_hours'     =>  $data['can_log_hours'],
+            
             /*'role_id'  =>1,
             'badgeID'  => '',
             'fname'     =>null*/

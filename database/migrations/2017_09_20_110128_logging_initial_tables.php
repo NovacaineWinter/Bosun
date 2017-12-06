@@ -43,7 +43,8 @@ class LoggingInitialTables extends Migration
         Schema::create('skills', function($b) {
             $b->increments('id');
             $b->string('name',50);
-            $b->string('description',500);           
+            $b->string('description',500); 
+            $b->boolean('bosun_defined')->default(0);          
             $b->timestamps();
         });
 
@@ -204,6 +205,9 @@ class LoggingInitialTables extends Migration
             $table->integer('remuneration_scheme_id')->nullable();
             $table->decimal('holiday_entitlement',6,3)->nullable();
             $table->decimal('holiday_taken',6,3)->nullable();
+            $table->integer('days_leave')->default(0);
+            $table->integer('days_per_week')->default(5);
+            $table->integer('hours_per_week')->default(40);
             $table->integer('leave_accrual_timestamp')->nullable();
             $table->integer('shift_type_id')->nullable(); 
             $table->boolean('bank_overtime')->nullable();                       
