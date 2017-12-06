@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\userBadge;
 use Cookie;
+use App\work_done;
+use App\day_summary;
 
 
 /*  This function lives here as I've currently got nowhere better to store it - it needs to be moved into its own included file i think  */
@@ -24,23 +28,77 @@ class LoggingController extends Controller
 
     }
 
-	public function ajax(){
+
+
+    public function setTerminalCookie(){
+    	$response = new \Illuminate\Http\Response('Test');
+		$response->withCookie(cookie('terminal_id', 123, 45000));
+		return $response;
+    }
+
+	public function ajax(Request $request){
 	    	if($request->has('ajaxmethod')){
 
     		switch($request->get('ajaxmethod')){
+
+                case 'setStatus':
+                
+                    if($request->has('userID') && $request->has('loggedIn') && $request->has('lunch') && $request->has('taskID')){
+                        $worker = User::find($request->get('userID'));
+
+                        $statusInfo['loggedIn']= $request->get('loggedIn');
+                        $statusInfo['onLunch']= $request->get('lunch');
+                        $statusInfo['taskID']= $request->get('taskID');
+                        $statusInfo['worker']= $worker;
+
+
+                        if($worker->on_lunch != $statusInfo['onLunch'] || $worker->task_id != $statusInfo['taskID'] || $worker->logged_in != $statusInfo['loggedIn']){
+                            $worker->change_activity($statusInfo['loggedIn'],$statusInfo['onLunch'],$statusInfo['taskID']);  
+                        }
+                        
+                        return view('outside.logging.ajax.logging_complete')->with('statusInfo',$statusInfo);
+
+
+                        
+                    }else{
+                        echo 'There was a problem logging your work activity- Some data was absent - please try again';
+                    }
+                    break;
+
+                case 'returnToLoggingHome':
+                    return view('outside.logging.index');
+                    break;
+
+
+                case 'requestAmendment':
+                    if($request->has('daySummaryID')){
+
+                        $daySummary = day_summary::find($request->geT('daySummaryID'));
+                        $daySummary->user_requested_amendment = 1;
+                        $daySummary->save();
+                        return view('outside.logging.ajax.amendmentRequested');
+                    }else{
+                        return view('outside.logging.index');
+                    }
+                    break;
 
         /* * * * * * * * * * */
 
     			case 'badgeSubmitted': 
 
-                    $worker= User::where('badgeID','=',$request->get('badgeID'))->first();
+                    //$worker= User::where('badgeID','=',$request->get('badgeID'))->first();
+                    $badge = userBadge::where('badgeID','=',$request->get('badgeID'))->first();
+        
 
-                    if(empty($worker)){
-                        App::abort(404,'ID not recognised');
+                    if(empty($badge->user)){
+                        return '<h1>ID Not recognised</h1>';
+                    }else{
+
+                        $request->flashOnly('badgeID');
+
+                        return view('outside.logging.ajax.user_home',['user'=>$badge->user]);
                     }
-                    $request->flashOnly('badgeID');
 
-    				return view('outside.logging.ajax.user_home',['worker'=>$worker]);
 
     				break;
 
@@ -135,9 +193,17 @@ class LoggingController extends Controller
                         abort(404,'ID not recognised');
                     } 
                     break;
+
+        /* * * * * * * * * * */
+        		case 'userGridClicked':
+        			if($request->has('user_id')){
+        				$user = User::find($request->get('user_id'));
+        				return view('outside.logging.ajax.user_home')->with('user',$user);
+        			}
+        			break;
     		}
     	}else{
-    		echo '<script>window.location.replace("'.url("/logging").'");</script>';
+    		return view('outside.logging.index');
     	}
 	}
 

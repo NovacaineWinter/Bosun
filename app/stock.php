@@ -27,5 +27,6 @@ class stock extends Model
     public function bookedOutParts(){
     	return $this->hasMany('App\bookedOutPart', 'stock_id');
 	}
+
 	
 }

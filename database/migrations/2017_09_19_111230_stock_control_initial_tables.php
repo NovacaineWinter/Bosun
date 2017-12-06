@@ -14,7 +14,6 @@ class StockControlInitialTables extends Migration
     public function up()
     {
 
-
         Schema::create('stock', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -181,21 +180,6 @@ class StockControlInitialTables extends Migration
                 'alias' =>0,         
                 )
         );
-
-        DB::table('projects')->insert(
-                array(
-                    'name'=>'Lunch',
-                    'is_finished'=>0,
-                    'can_book_parts_to'=>0
-                    )
-            );
-        DB::table('projects')->insert(
-                array(
-                    'name'=>'Generic Work',
-                    'is_finished'=>0,
-                    'can_book_parts_to'=>0
-                    )
-            );
 
         /*
         *   This was for chandlery sales for NBC LTD

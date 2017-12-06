@@ -29,12 +29,12 @@
         <!-- Bootstrap JS  -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <!-- jQuery UI CSS 
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <!-- jQuery UI CSS -->
+        <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">-->
 
-         jQuery UI JS 
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        -->
+        <!-- jQuery UI JS -->
+        <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+        
     
 </head>
 <body>

@@ -1,5 +1,8 @@
 <?php
 use App\stock;
+use App\config;
+
+$config = new config;
 
 if(!isset($item)){
     $item=stock::find($request->get('stockID'));
@@ -107,27 +110,27 @@ if(!isset($item)){
         <div id="position-table-holder" class="row" style="padding-left:30px;">
             <div class="row">
 
-                @if(CONFIG['stock_locations']['building'])
+                @if($config->boolean('location_building'))
                     <div class="col-xs-2 text-center allborder">Building</div>
                 @endif
 
-                @if(CONFIG['stock_locations']['isle'])
+                @if($config->boolean('location_isle'))
                     <div class="col-xs-2 text-center allborder">Isle</div>
                 @endif
 
-                @if(CONFIG['stock_locations']['side'])
+                @if($config->boolean('location_side'))
                     <div class="col-xs-2 text-center allborder">Side</div>
                 @endif  
 
-                @if(CONFIG['stock_locations']['bay'])
+                @if($config->boolean('location_bay'))
                     <div class="col-xs-2 text-center allborder">Bay</div>
                 @endif  
 
-                @if(CONFIG['stock_locations']['shelf'])
+                @if($config->boolean('location_shelf'))
                     <div class="col-xs-2 text-center allborder">Shelf</div>
                 @endif                         
 
-                @if(CONFIG['stock_locations']['position'])
+                @if($config->boolean('location_position'))
                     <div class="col-xs-2 text-center allborder">Position</div>
                 @endif                   
 
@@ -135,37 +138,37 @@ if(!isset($item)){
 
             <div class="row">
 
-                @if(CONFIG['stock_locations']['building'])
+                @if($config->boolean('location_building'))
                     <div class="col-xs-2 text-center allborder">
                         <input type="text" class="updateabletextbox text-center" targetID="{{{ $item->id }}}" method="stockLocationBuilding" value="{{{ $item->building }}}" readonly="readonly">
                     </div>
                 @endif
 
-                @if(CONFIG['stock_locations']['isle'])
+                @if($config->boolean('location_isle'))
                     <div class="col-xs-2 text-center allborder">
                         <input type="text" class="updateabletextbox text-center" targetID="{{{ $item->id }}}" method="stockLocationIsle" value="{{{ $item->isle }}}" readonly="readonly">
                     </div>
                 @endif
 
-                @if(CONFIG['stock_locations']['side'])
+                @if($config->boolean('location_side'))
                     <div class="col-xs-2 text-center allborder">
                         <input type="text" class="updateabletextbox text-center" targetID="{{{ $item->id }}}" method="stockLocationSide" value="{{{ $item->side }}}" readonly="readonly">
                     </div>
                 @endif  
 
-                @if(CONFIG['stock_locations']['bay'])
+                @if($config->boolean('location_bay'))
                     <div class="col-xs-2 text-center allborder">
                         <input type="text" class="updateabletextbox text-center" targetID="{{{ $item->id }}}" method="stockLocationBay" value="{{{ $item->bay }}}" readonly="readonly">
                     </div>
                 @endif  
 
-                @if(CONFIG['stock_locations']['shelf'])
+                @if($config->boolean('location_shelf')) 
                     <div class="col-xs-2 text-center allborder">
                         <input type="text" class="updateabletextbox text-center" targetID="{{{ $item->id }}}" method="stockLocationShelf" value="{{{ $item->shelf }}}" readonly="readonly">
                     </div>
                 @endif                         
 
-                @if(CONFIG['stock_locations']['position'])
+                @if($config->boolean('location_position'))
                     <div class="col-xs-2 text-center allborder">
                         <input type="text" class="updateabletextbox text-center" targetID="{{{ $item->id }}}" method="stockLocationPosition" value="{{{ $item->positon }}}" readonly="readonly">
                     </div>

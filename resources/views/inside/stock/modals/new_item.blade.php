@@ -3,6 +3,9 @@ use App\stock;
 use App\stockCategory;
 use App\supplier;
 use App\vatRate;
+use App\config;
+
+$config= new config;
 
 $vatRates = vatRate::all();
 $suppliers = supplier::all();
@@ -226,12 +229,12 @@ $categories= stockCategory::all();
             </h5>
         </div>
         <div class="modalInputContainer" style="width:70%;">
-            @if(CONFIG['stock_locations']['building'])<input class="col-xs-2" type="text" placeholder="Building" id="locationBuilding"> @endif 
-            @if(CONFIG['stock_locations']['isle'])<input class="col-xs-2" type="text" placeholder="Isle" id="locationIsle"> @endif 
-            @if(CONFIG['stock_locations']['side'])<input class="col-xs-2" type="text" placeholder="Side" id="locationSide"> @endif 
-            @if(CONFIG['stock_locations']['bay'])<input class="col-xs-2" type="text" placeholder="Bay" id="locationBay"> @endif 
-            @if(CONFIG['stock_locations']['shelf'])<input class="col-xs-2" type="text" placeholder="Shelf" id="locationShelf"> @endif 
-            @if(CONFIG['stock_locations']['position'])<input class="col-xs-2" type="text" placeholder="Position" id="locationPosition"> @endif 
+            @if($config->boolean('location_building')) <input class="col-xs-2" type="text" placeholder="Building" id="locationBuilding"> @endif 
+            @if($config->boolean('location_isle'))<input class="col-xs-2" type="text" placeholder="Isle" id="locationIsle"> @endif 
+            @if($config->boolean('location_side'))<input class="col-xs-2" type="text" placeholder="Side" id="locationSide"> @endif 
+            @if($config->boolean('location_bay'))<input class="col-xs-2" type="text" placeholder="Bay" id="locationBay"> @endif 
+            @if($config->boolean('location_shelf'))<input class="col-xs-2" type="text" placeholder="Shelf" id="locationShelf"> @endif 
+            @if($config->boolean('location_position')<input class="col-xs-2" type="text" placeholder="Position" id="locationPosition"> @endif 
 
         </div>
     </div>
