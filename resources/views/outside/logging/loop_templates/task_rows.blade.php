@@ -1,5 +1,5 @@
 
-<div class="btn btn-info btn-lg loggingbutton taskbutton userWorking project-accordion" 
+<div class="btn btn-info btn-lg loggingbutton taskbutton userLoggedOff project-accordion" 
 	method="setStatus" 
 	projectID="{{{ $project->id }}}" 
 	userID="{{{ $user->id }}}"
