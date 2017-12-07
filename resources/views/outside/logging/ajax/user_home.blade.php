@@ -29,12 +29,18 @@ if(!empty($user->skills)){
 
     $projects = array();
 }
+$numProjects = $projects->count();
+
+$padding = ($numProjects-1)*125;
+$paddingStr = $padding.'px';
 
 ?>
-<div id="backbutton" onclick="$('#activity-selector').css('visibility','hidden');location.reload();">
+
+
+<div class="container" id="activity-selector" style="margin-top:{{{ $paddingStr }}};">
+<div id="backbutton" onclick="$('#activity-selector').css('visibility','hidden');location.reload();" style="top:initial;">
     &#171;
 </div>
-<div class="container" id="activity-selector">
 
     <h1>Hello {{{$user->fname}}}</h1>
 

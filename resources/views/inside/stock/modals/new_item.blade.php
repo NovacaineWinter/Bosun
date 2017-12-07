@@ -234,7 +234,7 @@ $categories= stockCategory::all();
             @if($config->boolean('location_side'))<input class="col-xs-2" type="text" placeholder="Side" id="locationSide"> @endif 
             @if($config->boolean('location_bay'))<input class="col-xs-2" type="text" placeholder="Bay" id="locationBay"> @endif 
             @if($config->boolean('location_shelf'))<input class="col-xs-2" type="text" placeholder="Shelf" id="locationShelf"> @endif 
-            @if($config->boolean('location_position')<input class="col-xs-2" type="text" placeholder="Position" id="locationPosition"> @endif 
+            @if($config->boolean('location_position'))<input class="col-xs-2" type="text" placeholder="Position" id="locationPosition"> @endif 
 
         </div>
     </div>
