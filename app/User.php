@@ -129,7 +129,7 @@ class User extends Authenticatable
 
                 $w->time_worked=($now-($this->time_change));
 
-                $w->pay_earned = $w->time_worked * ($this->rate / 3600);
+                $w->pay_earned = round($w->time_worked * ($this->rate / 3600),8);
 
                 $w->time_started=$this->time_change;
 
@@ -231,7 +231,7 @@ class User extends Authenticatable
 
                         $w->time_worked=($now-($this->time_change));
 
-                        $w->pay_earned = $w->time_worked * ($this->rate / 3600);                    
+                        $w->pay_earned = round($w->time_worked * ($this->rate / 3600),8);                    
 
                         $w->time_started=$this->time_change;
 
@@ -277,7 +277,18 @@ class User extends Authenticatable
                     $sum_id=$day_summary->id;
 
                 }
-                $this->time_change=$now;
+
+
+                //code to prevent logging on before start hour
+
+                $startTimestamp = strtotime(date('Y-m-d'))+ (3600 * $this->start_hour) + (60 * $this->start_min);
+                if($now < $startTimestamp){
+                    $this->time_change=$startTimestamp;
+                }else{
+                    $this->time_change=$now;
+                }   
+
+                
                 $this->current_day_summary=$sum_id;
 
                 $this->save();
