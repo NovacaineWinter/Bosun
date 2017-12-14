@@ -39,8 +39,8 @@ $workers = User::where('can_log_hours','=',1)->where('is_active','=',1)->get();
                                 
                                 <td>{{{ $worker->fname.' '.$worker->lname }}}</td>
                                 <td>@if($worker->logged_in && !$worker->on_lunch) Working @elseif($worker->logged_in && $worker->on_lunch) Lunch @else Logged Off @endif</td>
-                                <td>@if($worker->logged_in) {{{  $worker->project->task->project->name  }}} @endif</td>
-                                <td>@if($worker->logged_in) {{{  $worker->project->task->name  }}} @endif</td>
+                                <td>@if($worker->logged_in) {{{  $worker->task->project->name  }}} @endif</td>
+                                <td>@if($worker->logged_in) {{{  $worker->task->name  }}} @endif</td>
                                 
                             </tr>
                             
