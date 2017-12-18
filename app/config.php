@@ -23,4 +23,15 @@ class config extends Model
 
     	//for now, in the future this will need to pull a list of approved terminal ids from the database into an array and return that instead
     }
+
+    public function secondsToHoursAndMinsString($seconds){
+        if($seconds>0){
+            $hours = floor($seconds/3600);
+            $mins = floor(($seconds%3600)/60);
+
+            return $hours.' hrs '.$mins.' mins';
+        }else{
+            return '0 hrs 0 mins';
+        }
+    }
 }

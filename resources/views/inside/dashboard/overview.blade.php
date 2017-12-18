@@ -95,7 +95,7 @@ $projects = Project::whereNotIn('id',$defaultProjectIds)->where('is_finished','=
                                 <td>{{{  $worker->hoursWorkedThisMonth()  }}}</td>
                                 <td>{{{  $worker->hoursOvertimeThisMonth()  }}}</td>
                                 <td>{{{  $worker->moneyEarnedThisMonth()  }}}</td>
-                                <td><div class="btn text-center">View</div></td>
+                                <td><div class="btn text-center dashboard-clickable" method="worker_untimesheeted_day_summaries" target="{{{$worker->id}}}">View</div></td>
                             </tr>
 
                             @endforeach

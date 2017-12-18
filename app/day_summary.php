@@ -20,6 +20,10 @@ class day_summary extends Model
  		return $this->hasMany('App\overtime','day_summary_id');
  	}
 
+ 	public function user(){
+ 		return $this->belongsTo('App\User', 'user_id');
+ 	}
+
 //belongs to payslip
 
 

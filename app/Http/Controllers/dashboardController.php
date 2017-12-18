@@ -14,6 +14,7 @@ use App\project;
 use App\tasks;
 use App\User;
 use App\userBadge;
+use App\day_summary;
 
 class DashboardController extends Controller
 {
@@ -91,7 +92,18 @@ class DashboardController extends Controller
 	 					}	 	
 	 					$task->save();
 	 				}
-	 				break;	 				
+	 				break;	
+
+
+	 			case 'worker_untimesheeted_day_summaries':
+	 				if($request->has('target')){
+	 					$daySummaries = day_summary::where('user_id','=',1)->where('is_timesheeted','!=',1)->get();
+	 					if($daySummaries->count()<=0){
+	 						$daySummaries = array();
+	 					}
+	 					return view('inside.dashboard.ajax.displayDaySummaries')->with('daySummaries',$daySummaries);
+	 				}
+	 				break; 				
 
 
 
