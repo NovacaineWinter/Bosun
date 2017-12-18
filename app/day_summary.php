@@ -41,7 +41,7 @@ public function summarise_day(){
 
 		$workItems = $this->workDone;
 
-		if(!empty($workItems)){
+		if($this->workDone->count()>0){
 	
 			foreach($workItems as $workItem){
 				if($workItem->task_id!=$lunchTaskID){
@@ -73,7 +73,9 @@ public function summarise_day(){
 			$this->ot_worked = 0;	//these will be set once we summarise a week
 			$this->bonus_time = 0;	// same
 
-		}else{
+
+		}else{	//have no work entries for today
+
 
 			//set all the needed parameters to zero
 
@@ -83,9 +85,10 @@ public function summarise_day(){
 			$this->first_work_done_id = 0;
 			$this->last_work_done_id = 0;
 			$this->ot_worked = 0;
-			$this->bosun_time = 0;
+			$this->bonus_time = 0;
 
-		}
+		}	// do the stuff needed regardless of presence of work entries
+
 
 		$this->is_timesheeted = 0;
 
