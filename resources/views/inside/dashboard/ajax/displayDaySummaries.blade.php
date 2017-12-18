@@ -32,8 +32,8 @@
 							<td>{{{  date('D',$day->time_in_stamp)  }}}</td>
 							<td>{{{  date('H:i',$day->time_in_stamp)  }}}</td>
 							<td>{{{  date('H:i',$day->time_out_stamp)  }}}</td>
-							<td>{{{  $config->secondsToHoursAndMinsString($day->time_worked)  }}}</td>
 							<td>{{{  $config->secondsToHoursAndMinsString($day->time_unproductive)  }}}</td>
+							<td>{{{  $config->secondsToHoursAndMinsString($day->time_worked)  }}}</td>
 							<td><div class="btn" method="daySummaryBreakdown" target="{{{ $day->id }}}"><</div></td>
 						</tr>
 					@endforeach
