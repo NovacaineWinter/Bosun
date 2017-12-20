@@ -106,7 +106,20 @@ class DashboardController extends Controller
 	 				break; 				
 
 
+	 			case 'daySummaryBreakdown':
+	 				if($request->has('target')){
+	 					$day = day_summary::find($request->get('target'));
+	 					return view('inside.dashboard.ajax.daySummaryDetail')->with('day',$day)->with('detail',1);
+	 				}
+	 				break;
 
+	 			case 'daySummarySingleRow':
+
+	 				if($request->has('target')){
+	 					$day = day_summary::find($request->get('target'));
+	 					return view('inside.dashboard.ajax.daySummaryRow')->with('day',$day)->with('detail',0);
+	 				}
+	 				break;
 
 
 /*shifts*/		case 'shifts':

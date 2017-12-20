@@ -23,32 +23,61 @@
 						<th>View Details</th>
 					</tr>
 				</thead>
-				<tbody>
+				
 				@foreach($daySummaries->groupBy('week') as $week)
 					@foreach($week as $day)
-						<tr>
-							<td>{{{  $day->user->name  }}}</td>
-							<td>{{{  date('Y-m-d',$day->time_in_stamp)  }}}</td>
-							<td>{{{  date('D',$day->time_in_stamp)  }}}</td>
-							<td>{{{  date('H:i',$day->time_in_stamp)  }}}</td>
-							<td>{{{  date('H:i',$day->time_out_stamp)  }}}</td>
-							<td>{{{  $config->secondsToHoursAndMinsString($day->time_unproductive)  }}}</td>
-							<td>{{{  $config->secondsToHoursAndMinsString($day->time_worked)  }}}</td>
-							<td><div class="btn" method="daySummaryBreakdown" target="{{{ $day->id }}}"><</div></td>
-						</tr>
+						<tbody id="day-summary-tbody-for-day-{{{ $day->id }}}">
+							<?php $detail = false; ?>
+							@include('inside.dashboard.ajax.daySummaryRow')
+						</tbody>
 					@endforeach
-					<tr>
-						<?php $weekSummary =$week->first()->weekSummary;  ?>
-						<td colspan="8">End of week {{{$week->first()->week}}}</td>	
-					</tr>
-					<tr>
-						<td colspan="8">&nbsp;</td>
-					</tr>
+					<tbody id="week-summary-tbody-for-week-{{{$week->first()->week}}}">
+						<tr>
+							<?php $weekSummary =$week->first()->weekSummary;  ?>
+							<td colspan="8">End of week {{{$week->first()->week}}}</td>	
+						</tr>
+						<tr>
+							<td colspan="8">&nbsp;</td>
+						</tr>
+					</tbody>
 				@endforeach
-				</tbody>
+				
 			</table>
 		</div>
 	</div>
+
+<script>
+	//$(document).ready(function() {
+		$(document).on('click','.daySummaryBreakdownBtn',function() {
+			//get target and send ajax request
+
+			target = $(this).attr('target');
+			method = $(this).attr('method');
+
+			$.ajax({
+                url: "{{url('/ajax')}}",
+                method: 'GET',
+                data: {
+                    ajaxmethod: method,			                    
+                    target: target,
+                },
+                success: function(response) {
+/*
+                	document.getElementById('day-summary-tbody-for-day-'+target).innerHTML = '';
+                	z = document.createElement('div');
+                	z.innerHTML = response;
+                	document.getElementById('day-summary-tbody-for-day-'+target).appendChild(z);*/
+
+                    $('#day-summary-tbody-for-day-'+target).html(response);
+                },
+                error: function(response) {
+                    console.log('There was an error - it was:');
+                    console.dir(response);
+                }
+            });
+		});
+	//});
+</script>
 
 
 @else
