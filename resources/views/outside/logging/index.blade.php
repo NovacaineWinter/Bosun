@@ -21,7 +21,7 @@
 	@if($config->boolean('rfid'))
 
 	<form method="get" action="">
-		<input style="opacity: 0%;" type="text" name="cardID" id="cardidinput" required>		
+		<input style="opacity: 0;" type="text" name="cardID" id="cardidinput" required>		
 
 		<script>
 			var focusInterval=setInterval(function(){ document.getElementById("cardidinput").focus();}, 100);
