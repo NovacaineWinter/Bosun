@@ -21,12 +21,13 @@
 	@if($config->boolean('rfid'))
 
 	<form method="get" action="">
-		<input style="opacity: 0;" type="text" name="cardID" id="cardidinput" required>		
+		<input style="opacity: 0%;" type="text" name="cardID" id="cardidinput" required>		
 
 		<script>
 			var focusInterval=setInterval(function(){ document.getElementById("cardidinput").focus();}, 100);
-
+			var keyupTimeout;
 			$('#cardidinput').keypress(function(event) {
+				clearTimeout(keyupTimeout);
 			    if (event.keyCode == 13) {
 			        
 			        event.preventDefault();
@@ -60,6 +61,10 @@
 				        
 				        $('#cardidinput').val('');
 			        }		            
+			    }else{
+			    	keyupTimeout = setTimeout(function() {
+			    		$('#cardidinput').val('');
+			    	},100);
 			    }
 			});				
 		</script>
