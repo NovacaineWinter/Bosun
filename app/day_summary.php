@@ -58,6 +58,7 @@ public function summarise_day(){
 			$firstWorkItem = $workItems->where('first','=',1)->first();
 			if(!empty($firstWorkItem)){
 				$this->first_work_done_id = $firstWorkItem->id;
+				$this->time_in_stamp = $firstWorkItem->time_started;
 			}else{
 				$this->first_work_done_id = 0;
 			}
@@ -66,6 +67,7 @@ public function summarise_day(){
 			$lastWorkItem = $workItems->where('last','=',1)->first();
 			if(!empty($lastWorkItem)){
 				$this->last_work_done_id = $lastWorkItem->id;
+				$this->time_out_stamp = $lastWorkItem->time_finished;
 			}else{
 				$this->last_work_done_id = 0;
 			}			

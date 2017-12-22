@@ -8,14 +8,13 @@
 @if(isset($daySummaries) && !empty($daySummaries))
 	<div class="row col-sm-12">
 		<h1>Overview of Days Worked</h1>
-
 		<div class="col-sm-8 col-sm-offset-2 dashboard-table-holder">
 			<table>
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Date</th>
 						<th>Day</th>
+						<th>Date</th>						
+						<th>Name</th>
 						<th>Time In</th>
 						<th>Time Out</th>
 						<th>Lunch</th>
@@ -46,27 +45,20 @@
 		</div>
 	</div>
 
-<script>
-	//$(document).ready(function() {
+<script>	
 		$(document).on('click','.daySummaryBreakdownBtn',function() {
+
 			//get target and send ajax request
-
-			target = $(this).attr('target');
-			method = $(this).attr('method');
-
+			target 	= $(this).attr('target');			
+			method 	= $(this).attr('method');
 			$.ajax({
                 url: "{{url('/ajax')}}",
                 method: 'GET',
-                data: {
+                data: { 
                     ajaxmethod: method,			                    
                     target: target,
                 },
                 success: function(response) {
-/*
-                	document.getElementById('day-summary-tbody-for-day-'+target).innerHTML = '';
-                	z = document.createElement('div');
-                	z.innerHTML = response;
-                	document.getElementById('day-summary-tbody-for-day-'+target).appendChild(z);*/
 
                     $('#day-summary-tbody-for-day-'+target).html(response);
                 },
@@ -76,7 +68,73 @@
                 }
             });
 		});
-	//});
+
+
+
+
+
+	$(document).on('dblclick','.updateablenumber',function() {
+	    if($(this).attr('readonly')=='readonly'){
+	        $(this).removeAttr('readonly');
+	        
+	    }                                
+	});
+
+	$(document).on('keypress','.updateablenumber',function(event) {
+	    if (event.keyCode == 13) {                                    
+	        event.preventDefault();
+
+	        //detected enter on the input textbox
+	            //send off an ajax request to update the model
+	                //set input to readonly on success
+
+	        value = $(this).val();
+	        maxVal = parseInt($(this).attr('max'));
+	        minVal = parseInt($(this).attr('min'));
+	        dayid = $(this).attr('dayid');
+	        method = $(this).attr('method');
+	        target = $(this).attr('target');
+
+
+	        if(value >= minVal && value <= maxVal){
+		        $.ajax({
+		            url: "{{url('/ajax')}}",
+		            method: 'GET',
+		            data: {
+		                ajaxmethod: method,
+		                target:   	target,
+		                value:      value,
+
+		            },
+		            success: function(response) {
+		                $('.updateablenumber').attr('readonly','readonly');
+		                $('#day-summary-tbody-for-day-'+dayid).html(response);
+		            },
+		            
+		            error: function(response) {
+		                console.log('There was an error - it was:');
+		                console.dir(response);
+		            }
+		        });
+
+	        }else{
+				$(this).val($(this).attr('currentval'));
+				$(this).attr('readonly','readonly');
+	        }
+            
+	    }
+	});
+
+	$(document).on('blur','.updateablenumber',function() {
+		$(this).val($(this).attr('currentval'));
+		$(this).attr('readonly','readonly');
+	});
+
+
+
+
+
+
 </script>
 
 

@@ -16,6 +16,10 @@ class work_done extends Model
     	return $this->belongsTo('App\project','project_id');
     }
 
+    public function user(){
+        return $this->belongsTo('App\User','user_id');
+    }
+
     public function daySummary(){
     	return $this->belongsTo('App\day_summary','day_summary_id');
     }
@@ -34,6 +38,15 @@ class work_done extends Model
     				//->sortBy('time_started')
     				->get();
     }
+
+
+    public function recalculate(){
+        $this->time_worked = $this->time_finished - $this->time_started;
+        $pay = ($this->base_hourly_rate/3600) * $this->time_worked;
+        $this->pay_earned = round($pay,8);
+        $this->save();
+    }
+
 
     public function onDayOnProject($projectID,$year,$week,$day){
 

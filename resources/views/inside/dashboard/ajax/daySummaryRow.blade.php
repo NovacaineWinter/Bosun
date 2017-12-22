@@ -4,10 +4,10 @@
 	$config = new config;
 ?>
 
-<tr>
-	<td>{{{  $day->user->name  }}}</td>
-	<td>{{{  date('Y-m-d',$day->time_in_stamp)  }}}</td>
+<tr @if($day->user_requested_amendment==1) class="userOnLunch"  @endif >
 	<td>{{{  date('D',$day->time_in_stamp)  }}}</td>
+	<td>{{{  date('dS M ',$day->time_in_stamp)  }}}</td>
+	<td>{{{  $day->user->name  }}}</td>	
 	<td>{{{  date('H:i',$day->time_in_stamp)  }}}</td>
 	<td>{{{  date('H:i',$day->time_out_stamp)  }}}</td>
 	<td>{{{  $config->secondsToHoursAndMinsString($day->time_unproductive)  }}}</td>

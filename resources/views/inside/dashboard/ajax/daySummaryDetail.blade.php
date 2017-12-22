@@ -16,26 +16,49 @@
 		<th>Time Elapsed</th>
 	</tr>
 
-	@foreach($day->workDone as $work)
+
+	@foreach($day->workDone->sortBy('time_started') as $work)
 	<tr @if($work->task_id == $config->integer('lunchTaskID')) class="userOnLunch" @else class="userWorking" @endif>
 		<td>{{{  $work->task->name  }}}</td>
 		<td>
 			<div class="col-sm-6" style="padding-right:0px;">
-				<input type="number" class="updateablenumber" style="text-align:right;" min="0" max="23" value="{{{ date('G',$work->time_started) }}}"" readonly="readonly">
+				<input type="number" class="updateablenumber" method="workItemStartHourChange" target="{{{ $work->id }}}" dayid="{{{$day->id}}}" currentval="{{{ date('G',$work->time_started) }}}" style="text-align:right;" min="0" max="23" value="{{{ date('G',$work->time_started) }}}" readonly="readonly">
 			</div>
 			<div class="col-sm-6" style="padding-left:5px">
-				<input type="number" class="updateablenumber" style="text-align:left;" min="0" max="59" value="{{{ date('i',$work->time_started) }}}" readonly="readonly">
+				<input type="number" class="updateablenumber" method="workItemStartMinChange" target="{{{ $work->id }}}" dayid="{{{$day->id}}}" style="text-align:left;" min="0" max="59" currentval="{{{ date('i',$work->time_started) }}}" value="{{{ date('i',$work->time_started) }}}" readonly="readonly">
 			</div>
 		</td>
 		<td>
 			<div class="col-sm-6" style="padding-right:0px;">
-				<input type="number" class="updateablenumber" style="text-align:right;" min="0" max="23" value="{{{ date('G',$work->time_finished) }}}" readonly="readonly">
+				<input type="number" class="updateablenumber" method="workItemFinishHourChange" target="{{{ $work->id }}}" dayid="{{{$day->id}}}" style="text-align:right;" min="0" max="23" currentval="{{{ date('G',$work->time_finished) }}}" value="{{{ date('G',$work->time_finished) }}}" readonly="readonly">
 			</div>
 			<div class="col-sm-6" style="padding-left:5px">
-				<input type="number" class="updateablenumber" style="text-align:left;" min="0" max="59" value="{{{ date('i',$work->time_finished) }}}" readonly="readonly">
+				<input type="number" class="updateablenumber" method="workItemFinishMinChange" target="{{{ $work->id }}}" dayid="{{{$day->id}}}" style="text-align:left;" min="0" max="59" currentval="{{{ date('i',$work->time_finished) }}}" value="{{{ date('i',$work->time_finished) }}}" readonly="readonly">
 			</div>
 		</td>
 		<td>{{{   $config->secondsToHoursAndMinsString($work->time_worked)  }}}</td>
+
+		@if(isset($error))
+			@if($problematic_work == $work->id)
+				<td colspan="4" style="background-color:#ffb3ba">{{{ $error }}}</td>
+			@endif
+		@endif
+
 	</tr>
 	@endforeach	
+
+	
+		<tr>
+			<td colspan="4">
+				<div class="col-sm-6 btn">
+					<h3>Authorise Time</h3>
+				</div>
+				@if($day->user_requested_amendment ==1)
+				<div class=" col-sm-6 btn btn-info">
+					<h3  style="color:#fafafa; font-weight: 600;">Mark as Amended</h3>
+				</div>
+				@endif
+			</td>
+		</tr>
+	
 <tr><td colspan="4">&nbsp;</td></tr>
