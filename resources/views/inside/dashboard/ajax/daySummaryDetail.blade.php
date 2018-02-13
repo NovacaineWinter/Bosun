@@ -14,6 +14,7 @@
 		<th>Time Start</th>
 		<th>Time Finish</th>
 		<th>Time Elapsed</th>
+		<th>Project</th>		
 	</tr>
 
 
@@ -43,7 +44,7 @@
 				<td colspan="4" style="background-color:#ffb3ba">{{{ $error }}}</td>
 			@endif
 		@endif
-
+		<td>{{{  $work->task->project->name  }}}</td>
 	</tr>
 	@endforeach	
 

@@ -92,7 +92,7 @@ class User extends Authenticatable
    
 
     public function may($responsibility){
-        if($this->role->first()->$responsibility){
+        if($this->role->$responsibility==1){
             return true;        
         }else{
             return false;

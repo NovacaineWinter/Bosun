@@ -232,7 +232,7 @@ class stockController extends Controller
 		if($items->count()){
 			return view('inside.stock.ajax.list_stock_items')->with('items',$items); 	
 		}else{
-			return '';
+			return 'No items to show';
 		}
 		 
 
