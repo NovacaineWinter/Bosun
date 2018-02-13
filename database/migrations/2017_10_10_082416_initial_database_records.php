@@ -299,6 +299,16 @@ class InitialDatabaseRecords extends Migration
 
 
 
+        DB::table('config')->insert(
+            array(
+                'name'          =>  'min_work_done_time',
+                'boolean'       =>  300,
+                'description'   =>  'Min number of seconds that need to be recorded before a record of work done is created',
+                'group'         => 'logging'
+            )
+        ); 
+
+
 
 
     }

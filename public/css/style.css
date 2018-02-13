@@ -112,11 +112,11 @@ html, body {
 
 #ajax-target{
     box-sizing: border-box;
-    padding: 200px;
-    background-color: #fafafa;
+    /*padding: 200px;*/
+     /*background-color: #fafafa; */
     border-radius: 20px;
-    position:relative;
-    min-width: 90%;
+   /* position:relative;*/
+    /*min-width: 90%;*/
 }
 
 #ajax-target .loggingbutton{

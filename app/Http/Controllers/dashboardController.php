@@ -526,6 +526,18 @@ class DashboardController extends Controller
 
 
 
+	 			case 'markAsAmended':
+	 				if($request->has('target')){
+
+	 					$day = day_summary::find($request->get('target'));
+	 					$day->user_requested_amendment = 0;
+	 					$day->comments = $day->comments.'     Amended at '.date('Y-m-d H:i');
+	 					$day->save();
+
+	 					return view('inside.dashboard.ajax.daySummaryDetail')->with('day',$day)->with('detail',1);
+	 				}
+	 				break;
+
 
 	 			case 'newMemberOfStaff':
 

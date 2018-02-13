@@ -51,14 +51,44 @@
 		<tr>
 			<td colspan="4">
 				<div class="col-sm-6 btn">
-					<h3>Authorise Time</h3>
+					<h3 style="font-size:22px; margin:5px;">Authorise Time</h3>
 				</div>
 				@if($day->user_requested_amendment ==1)
-				<div class=" col-sm-6 btn btn-info">
-					<h3  style="color:#fafafa; font-weight: 600;">Mark as Amended</h3>
+				<div class="ajax-clickable col-sm-6 btn btn-info" method="markAsAmended" target="{{{ $day->id }}}">
+					<h3  style="color:#fafafa; font-weight: 600;font-size:22px; margin:5px;">Mark as Amended</h3>
 				</div>
 				@endif
 			</td>
 		</tr>
 	
-<tr><td colspan="4">&nbsp;</td></tr>
+<tr><td colspan="4">{{$day->comments}}</td></tr>
+
+
+<script>
+	
+	$(document).ready(function() {
+		$('.ajax-clickable').click(function() {
+			method = $(this).attr('method');
+			target = $(this).attr('target');
+
+
+			 $.ajax({
+	                url: "{{url('ajax')}}",
+	                method: 'GET',
+	                data: {
+	                    ajaxmethod: method,
+	                    target: target,
+	                },
+	                success: function(response) {
+	                	$('#highlighted-row-for-dayid-'+target).removeClass('userOnLunch');
+	                    $('#day-summary-tbody-for-day-'+target).html(response);                                  
+
+	                },
+	                error: function(response) {
+	                    console.log('There was an error - it was:');
+	                    console.dir(response);
+	                }
+            });                
+		});
+	});
+</script>

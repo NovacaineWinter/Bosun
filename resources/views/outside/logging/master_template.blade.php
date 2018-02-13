@@ -8,7 +8,8 @@
         <title>@yield('pagetitle')</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,600" rel="stylesheet" type="text/css">
 
         <!--  Master Stylesheet  -->
         <link href="/css/style.css" rel="stylesheet" type="text/css">
@@ -28,8 +29,9 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #202020;
+                /* color: #636b6f;  */
+                color: #fff;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
@@ -65,7 +67,8 @@
             }
 
             .links > a {
-                color: #636b6f;
+                /* color: #636b6f; */
+                color: #fff;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -80,19 +83,11 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
+        <div class="container">
+           
+           
 
-            <div id="ajax-target" class="content">
+            <div id="ajax-target" class="content col-sm-12">
                 <div class="title m-b-md">
                 	@yield('page_header_1')
                 </div>

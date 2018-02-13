@@ -8,7 +8,7 @@
 @if(isset($daySummaries) && !empty($daySummaries))
 	<div class="row col-sm-12">
 		<h1>Overview of Days Worked</h1>
-		<div class="col-sm-8 col-sm-offset-2 dashboard-table-holder">
+		<div class="dashboard-table-holder" style="max-width:1050px; margin:auto;">
 			<table>
 				<thead>
 					<tr>

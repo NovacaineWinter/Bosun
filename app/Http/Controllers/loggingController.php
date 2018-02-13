@@ -70,17 +70,35 @@ class LoggingController extends Controller
                     break;
 
 
+
                 case 'requestAmendment':
                     if($request->has('daySummaryID')){
 
-                        $daySummary = day_summary::find($request->geT('daySummaryID'));
+                        $daySummary = day_summary::find($request->get('daySummaryID'));
                         $daySummary->user_requested_amendment = 1;
+                        $daySummary->save();
+                        return view('outside.logging.ajax.amendmentRequested');
+
+                    }else{
+                        return view('outside.logging.index');
+                    }
+                    break;
+
+
+                case 'adminAmendedHours':
+                    if($request->has('daySummaryID')){
+
+                        $user = Auth::user();
+                        $daySummary = day_summary::find($request->get('daySummaryID'));
+                        $daySummary->user_requested_amendment = 0;
+                        $daySummary->comment = $daySummary->comment.' As requested, Hours Amended by '.$user->fname;
                         $daySummary->save();
                         return view('outside.logging.ajax.amendmentRequested');
                     }else{
                         return view('outside.logging.index');
                     }
                     break;
+
 
         /* * * * * * * * * * */
 

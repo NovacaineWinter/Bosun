@@ -37,17 +37,17 @@ $paddingStr = $padding.'px';
 ?>
 
 
-<div class="container" id="activity-selector" style="margin-top:{{{ $paddingStr }}};">
+<div class="container" id="activity-selector">
 <div id="backbutton" onclick="$('#activity-selector').css('visibility','hidden');location.reload();" style="top:initial;">
     &#171;
 </div>
 
-    <h1>Hello {{{$user->fname}}}</h1>
+    <h1 style="color: #fff;font-family: 'Lato', sans-serif; font-weight:300;">Hello {{{$user->fname}}}</h1>
 
     @if($user->logged_in)
         @if($user->on_lunch)
 
-            <h2>You are currently on Break</h2>
+            <h2 style="color: #fff;font-family: 'Lato', sans-serif; font-weight:300;">You are currently on Break</h2>
             <div class="row">
 
                 <div class="col-sm-6">
@@ -82,7 +82,7 @@ $paddingStr = $padding.'px';
             </div>
         @endif
     @else
-        <h2>You are currently logged off</h2>
+        <h2 style="color: #fff;font-family: 'Lato', sans-serif; font-weight:300;">You are currently logged off</h2>
 
 
         <div class="col-sm-6">
@@ -92,6 +92,7 @@ $paddingStr = $padding.'px';
         </div>
 
     @endif
+
 
     <div class="col-sm-8 col-sm-offset-2 userLoggedOff" id="job-selection-holder">       
     

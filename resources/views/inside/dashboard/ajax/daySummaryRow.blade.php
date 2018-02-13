@@ -4,7 +4,7 @@
 	$config = new config;
 ?>
 
-<tr @if($day->user_requested_amendment==1) class="userOnLunch"  @endif >
+<tr @if($day->user_requested_amendment==1) class="userOnLunch"  id="highlighted-row-for-dayid-{{{$day->id}}}" @endif >
 	<td>{{{  date('D',$day->time_in_stamp)  }}}</td>
 	<td>{{{  date('dS M ',$day->time_in_stamp)  }}}</td>
 	<td>{{{  $day->user->name  }}}</td>	

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\day_sumamry;
+
 use App\work_done;
 use App\day_summary;
 use App\config;
@@ -98,6 +98,11 @@ class User extends Authenticatable
             return false;
 
         }
+    }
+
+
+    public function todaysDaySummary(){
+        return $this->belongsTo('App\day_summary','day_summary_id');
     }
 
     public function change_activity($logged_in,$on_lunch,$task){
@@ -303,7 +308,12 @@ class User extends Authenticatable
                 if($now < $startTimestamp){
                     $this->time_change=$startTimestamp;
                 }else{
-                    $this->time_change=$now;
+
+                    //logged in late - on a 15 min ratchet so lets sort out the logic for the start time                    
+                    $lateness = $now - $startTimestamp;
+                    $NumQuarterOfHoursLate = ceil($lateness/(15 * 60));
+                    $penaltyStartTime = $startTimestamp + (15 * 60 * $NumQuarterOfHoursLate);
+                    $this->time_change = $penaltyStartTime;
                 }   
 
                 
@@ -383,4 +393,18 @@ class User extends Authenticatable
         echo '&pound;'.round($this->getMoneyEarnedThisMonth(),2);
     }
 
+
+
+    public function forceLogOff(){   
+    $ToAmend = day_summary::find($this->current_day_summary);    
+
+        if($ToAmend){
+
+            $ToAmend->comments ='User did not log off today, the system has automatically logged them off.';
+            $ToAmend->user_requested_amendment =1;
+            $ToAmend->save();
+
+            $this->change_activity(0,0,1);
+        }
+    }
 }
