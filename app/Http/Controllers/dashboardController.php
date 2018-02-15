@@ -78,7 +78,7 @@ class DashboardController extends Controller
 	 					$task->task_active = $request->get('value');
 	 					
 	 					if($request->get('value')){
-		 					$task->task_finished = false;	 						
+		 					$task->task_finished = 0;	 						
 	 					}
 	 					$task->save();
 	 				}
@@ -87,10 +87,10 @@ class DashboardController extends Controller
 	 			case 'taskfinished':
 	 				if($request->has('target')&&$request->has('value')){
 	 					$task = tasks::find($request->get('target'));
-	 					$task->task_finished = $request->get('valu14e');
+	 					$task->task_finished = $request->get('value');
 	 					
 	 					if($request->get('value')){
-		 					$task->task_active = false;
+		 					$task->task_active = 0;
 	 					}	 	
 	 					$task->save();
 	 				}
