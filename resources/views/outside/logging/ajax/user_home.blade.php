@@ -16,11 +16,7 @@ if(!empty($user->skills)){
     $projects = project::where('can_log_hours','=',1)
 
     ->whereHas('tasks', function ($query) use($user) {
-        $query->whereIn('skill_id',$user->skills->pluck('id')->toArray());
-    })
-
-    ->whereHas('tasks', function ($query){
-        $query->where('task_finished','=',0);
+        $query->whereIn('skill_id',$user->skills->pluck('id')->toArray())->where('task_finished','=',0)->where('task_active','=',1);
     })
     ->where('is_finished','=',0)
     ->get(); 
