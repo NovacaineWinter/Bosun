@@ -18,6 +18,8 @@ $workers = User::where('can_log_hours','=',1)->where('is_active','=',1)->get();
 	                    @else
 	                        <div method="upgrade-subscription" class="btn btn-border ajax-clickable"><h4>Upgrade Bosun</h4></div>
 	                    @endif
+
+                            <div method="worker_skills"  target="9" class="btn btn-border ajax-clickable">+ Edit Worker Skills</div>
 	                </div>
 	            </div>            	
                 <thead>
@@ -63,7 +65,7 @@ $workers = User::where('can_log_hours','=',1)->where('is_active','=',1)->get();
     </div>
 
 <script>
-	 $('.dashboard-clickable').click(function() {
+	 $('.ajax-clickable').click(function() {
 
         clickedMethod=$(this).attr('method');
 

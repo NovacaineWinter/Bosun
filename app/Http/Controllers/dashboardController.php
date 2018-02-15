@@ -17,6 +17,7 @@ use App\userBadge;
 use App\day_summary;
 use App\work_done;
 use App\config;
+use App\user_skill;
 
 class DashboardController extends Controller
 {
@@ -54,6 +55,12 @@ class DashboardController extends Controller
 	 				break;
 
 
+
+
+
+	 			case 'worker_skills':
+	 				return view('inside.dashboard.ajax.workerskills');
+	 				break;
 
 	 			case 'project-summary':
 	 				if($request->has('target')){
@@ -619,6 +626,48 @@ class DashboardController extends Controller
 
 
 	 				break;
+
+	 			case 'updateWorkerSkill':
+	 				if($request->has('target') && $request->has('skill') && $request->has('value')){
+
+	 					$user = \App\User::find($request->get('target'));
+
+	 					$skills = $user->skills->pluck('id')->toArray();
+
+	 					if(in_array($request->get('skill'),$skills)){
+	 						
+	 						//already has skill
+	 						if($request->get('value') == 'true'){
+	 							//already has skill and should have the skill so do nothing
+
+	 						}else{
+	 							//currently has skill but shouldnt so lets delete it
+	 							\DB::table('user_skills')->where('user_id','=',$request->get('target'))->where('skill_id','=',$request->get('skill'))->delete();
+	 						}
+
+	 					}else{
+
+	 						//not got skill
+	 						if($request->get('value') == 'true'){
+	 							//Doesnts have skill but should so create it
+
+	 							$skill = new user_skill;
+	 							$skill->user_id = $request->get('target');
+	 							$skill->skill_id = $request->get('skill');
+	 							$skill->bosun_defined = 0;
+	 							$skill->save();
+
+
+	 						}else{
+	 							//doenst have the skill and shouldnt have it, so do nothing
+
+	 						}	 						
+
+	 					}
+
+	 				}
+	 				break;
+
 	 			default:
 	 				return view('inside.dashboard.overview');
 	 				break;
