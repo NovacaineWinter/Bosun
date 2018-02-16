@@ -66,7 +66,28 @@
 			    		$('#cardidinput').val('');
 			    	},100);
 			    }
-			});				
+			});	
+
+			$(document).ready(function() {
+				//set all the display related stuff
+
+				$('body').css('background-image','url(../img/wallpaper.jpg)');
+				$('body').css('-webkit-background-size','cover');
+				$('body').css('-moz-background-size','cover');
+				$('body').css('-o-background-size','cover');
+				$('body').css('background-size','cover');
+				$('#scanidtitle').css('position','fixed');
+				$('#scanidtitle').css('color','#353535');
+				setupVisuals();
+			});
+
+
+			function setupVisuals(){
+				$('#scanidtitle').css('top',(($(window).height()-$('#scanidtitle').height())/2));
+				$('#scanidtitle').css('left',(($(window).width()-$('#scanidtitle').width())/2));
+			}
+
+			$(window).resize(setupVisuals);
 		</script>
 
 	</form>
@@ -152,7 +173,6 @@
 <style>
 
 .clock {
-    width: 800px;
     margin: 0 auto;
     padding: 30px;
     color: #fff;
@@ -163,7 +183,6 @@
     font-size: 36px;
     text-align: center;
     text-shadow: 0 0 5px #00c6ff;
-        padding-left: 53px;
 }
 
 #point {
@@ -174,7 +193,6 @@
     padding-right: 10px;
 }
 .clock ul {
-    width: 800px;
     margin: 0 auto;
     padding: 0px;
     list-style: none;
@@ -265,7 +283,7 @@ setInterval( function() {
 
 	@if($config->boolean('rfid'))
 
-		SCAN &nbspID
+		<span id="scanidtitle">SCAN &nbsp;ID </span>
 
 	@elseif($config->boolean('grid'))
 

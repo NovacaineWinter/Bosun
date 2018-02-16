@@ -29,8 +29,8 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #202020;
-                /* color: #636b6f;  */
+                 background-color: #202020; 
+                /* color: #636b6f;  */                
                 color: #fff;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
