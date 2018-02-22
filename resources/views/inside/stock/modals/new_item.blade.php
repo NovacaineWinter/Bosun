@@ -45,7 +45,7 @@ $categories= stockCategory::all();
             <div class="modalInputContainer">
 
                 <select id="categoryID" class="modalInputField">
-                    <option value="0">...</option>
+                   
                     @foreach($categories as $category)
                         <option value="{{{ $category->id }}}">{{{ $category->name }}}</option>
                     @endforeach
@@ -64,7 +64,7 @@ $categories= stockCategory::all();
             </div>
             <div class="modalInputContainer">
                 <select id="subcategoryID" class="modalInputField">
-                    <option value="0">Select Category First</option>
+                    <option value="1">Default Subcategory</option>
                 </select>
             </div>
         </div>
@@ -123,7 +123,7 @@ $categories= stockCategory::all();
             <div class="modalInputContainer">
 
                 <select id="supplierID" class="modalInputField">
-                    <option value="0">...</option>
+                    
                     @foreach($suppliers as $supplier)
                         <option value="{{{ $supplier->id }}}">{{{ $supplier->name }}}</option>
                     @endforeach
