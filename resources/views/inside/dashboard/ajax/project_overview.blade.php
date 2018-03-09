@@ -19,7 +19,7 @@ if($request->has('target')){
 
 <h1>{{{  $project->name  }}}</h1>
 <div class="col-sm-12 dashboard-table-holder">
-    <div class="row col-lg-8 col-lg-offset-2">
+    <div class="row" style="max-width:1000px">
     	<h3 class="pull-left">Description</h3>   
 
    		<textarea class="changeableTextArea col-xs-12" textareaParent="projectDescription" target="{{{$project->id}}}">{{{$project->description}}}</textarea>
@@ -27,7 +27,7 @@ if($request->has('target')){
    
 
 
-    <div class="col-lg-8 col-lg-offset-2" id="project-info-holder">
+    <div id="project-info-holder"  style="max-width:1000px">
     	<div class="row">
     		<div class="col-xs-3 project-info-heading nav-selected" style="border-top-left-radius:10px;"><h4>Overview</h4></div>
     		<div class="col-xs-3 project-info-heading"><h4>Parts</h4></div>
