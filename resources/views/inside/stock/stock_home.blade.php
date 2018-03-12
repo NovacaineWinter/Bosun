@@ -48,7 +48,7 @@ $suppliers = supplier::all()->sortBy('name');
 
                     <td class="rightborder text-center bottomborder">
                         <!-- Stock Name Search -->
-                        <input id="stocksearch" onkeydown="stockSearchDown()" style="margin: 5px 0px 20px 0px;" onkeyup="stockSearchUp()" type="text" name="stock_keyword">
+                        <input id="stocksearch" onkeydown="searchkeydown(event)" style="margin: 5px 0px 20px 0px;"  type="text" name="stock_keyword">
                     </td>
 
                     <td class="rightborder text-center bottomborder" target="#category-filter">
@@ -128,23 +128,43 @@ $( document ).ready(function(){
 
 
 
-var debounce;
+    var debounce;
 
+    /*
     function stockSearchDown(){
         //keydown function - kill timeout
+        console.log('clear timeout on keydown');
         clearTimeout(debounce);
     }
 
     function stockSearchUp(){
         //keyup function - set timeout
         keyword=$('#stocksearch').val();
-        clearTimeout(debounce);
-        debounce=setTimeout(function() {
-            //alert('Finished Typing - getting search results');
+            clearTimeout(debounce);
+        if(keyword != ''){
+            debounce=setTimeout(function() {
+                console.log('Finished Typing - getting search results for keyword :'+keyword);
+                filterFormByAjax();
+            },400);  
+        }else{
+             debounce=setTimeout(function() {
+                console.log('Finished Typing - getting search results with no keyword');
+                filterFormByAjax();
+            },2000);  
+        }       
+
+
+    }*/
+
+    function searchkeydown(event) {
+
+        if (event.keyCode == 13) {   
+
+            event.preventDefault();
+
             filterFormByAjax();
-        },400);            
-
-
+                   
+        }
     }
 
 
@@ -221,6 +241,9 @@ var debounce;
         }else{
             all = false;
         }
+
+        console.log('ajax going');
+
         $.ajax({
             url: "{{url('/stock/search')}}",
             method: 'GET',
@@ -234,7 +257,7 @@ var debounce;
             },
             success: function(response) {
                 $('#stockSearchResultTarget').html(response);
-
+                console.log('ajax success');
             },
             error: function(response) {
                 console.log('There was an error - it was:');
